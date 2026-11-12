@@ -1,0 +1,136 @@
+<h1>Torke, rečnici i skupovi</h1>
+
+<h2>1. Torke (tuple)</h2>
+<p style="text-align: justify">
+  Torka (tip <b>tuple</b>) je, slično listi, uređena kolekcija elemenata.
+  Ključna razlika je u tome što je lista <b>izmenljiva</b> (engl.
+  <i>mutable</i>) - njen sadržaj se može menjati i nakon kreiranja, dok je
+  torka <b>neizmenljiva</b> (engl. <i>immutable</i>) - jednom kreirana, ne
+  može se menjati. Torka se piše pomoću običnih zagrada.
+</p>
+
+<b>Primer 1 (Kreiranje i korišćenje torke):</b> Kreirati torku sa
+geografskim koordinatama i ispisati prvi element i dužinu torke.
+<xmp class="primer_ta" title="">
+koordinate = (44.8, 20.5)
+
+print(koordinate[0])   # 44.8
+print(len(koordinate))  # 2
+
+# koordinate[0] = 10   -> ovo bi izazvalo grešku, torka se ne može menjati
+</xmp>
+
+<p style="text-align: justify">
+  Torke se koriste kada želimo da budemo sigurni da se podaci neće slučajno
+  izmeniti u nastavku programa, kao i za grupisanje podataka koji uvek idu
+  zajedno (npr. geografska širina i dužina).
+</p>
+
+<h3>1.1. Raspakivanje torki (unpacking)</h3>
+<p style="text-align: justify">
+  Elementi torke (kao i liste) mogu se, u jednoj liniji, dodeliti
+  odgovarajućem broju promenljivih. Ovaj postupak naziva se
+  <b>raspakivanje</b> (unpacking).
+</p>
+
+<b>Primer 2 (Raspakivanje torke):</b> Raspakovati torku sa koordinatama u
+dve zasebne promenljive.
+<xmp class="primer_ta" title="">
+koordinate = (44.8, 20.5)
+
+sirina, duzina = koordinate
+print(sirina)    # 44.8
+print(duzina)    # 20.5
+</xmp>
+
+<h2>2. Rečnici (dict)</h2>
+<p style="text-align: justify">
+  Rečnik (tip <b>dict</b>) čuva podatke u parovima <b>ključ - vrednost</b>,
+  za razliku od liste kod koje se elementima pristupa preko celobrojnog
+  indeksa. Piše se pomoću vitičastih zagrada.
+</p>
+
+<b>Primer 3 (Kreiranje rečnika):</b> Kreirati rečnik koji predstavlja
+osobu i ispisati vrednosti dva njegova ključa.
+<xmp class="primer_ta" title="">
+osoba = {
+    "ime": "Jovana",
+    "prezime": "Jovanović",
+    "godine": 24
+}
+
+print(osoba["ime"])       # Jovana
+print(osoba["godine"])    # 24
+</xmp>
+
+<h3>2.1. Izmena i dodavanje elemenata rečnika</h3>
+<p style="text-align: justify">
+  Nastavlja se rad sa rečnikom <b>osoba</b> iz prethodnog primera, 
+  njegove vrednosti se mogu menjati, a novi parovi ključ-vrednost
+  dodavati, na sledeći način:
+</p>
+<xmp class="primer_ta" title="">
+osoba["godine"] = 25          # izmena postojeće vrednosti
+osoba["grad"] = "Novi Sad"    # dodavanje novog para ključ-vrednost
+
+print(osoba)
+</xmp>
+
+<div class="napomena">
+  <b>keys()</b> - vraća sve ključeve rečnika<br />
+  <b>values()</b> - vraća sve vrednosti rečnika<br />
+  <b>items()</b> - vraća sve parove ključ-vrednost<br />
+  <b>get(ključ)</b> - vraća vrednost za dati ključ, bez greške ako ključ ne
+  postoji (vraća <b>None</b>)
+</div>
+
+<b>Primer 4 (Prolazak kroz rečnik):</b> Pomoću petlje ispisati sve
+parove ključ-vrednost iz rečnika.
+<xmp class="primer_ta" title="">
+osoba = {"ime": "Jovana", "godine": 25, "grad": "Novi Sad"}
+
+for kljuc, vrednost in osoba.items():
+    print(kljuc, "->", vrednost)
+</xmp>
+
+<h2>3. Skupovi (set)</h2>
+<p style="text-align: justify">
+  Skup (tip <b>set</b>) je, za razliku od liste i torke, <b>neuređena</b>
+  kolekcija u kojoj se svaka vrednost pojavljuje najviše jednom, a duplikati
+  se automatski uklanjaju. Piše se pomoću vitičastih zagrada, kao i rečnik,
+  ali bez ključeva, samo sa vrednostima.
+</p>
+
+<b>Primer 5 (Kreiranje skupa i uklanjanje duplikata):</b> Kreirati skup
+ocena sa duplikatima i dodati mu još jednu vrednost.
+<xmp class="primer_ta" title="">
+ocene = {5, 4, 5, 3, 4, 5}
+print(ocene)    # {3, 4, 5} - duplikati su automatski uklonjeni
+
+ocene.add(2)
+print(ocene)    # {2, 3, 4, 5}
+</xmp>
+
+<p style="text-align: justify">
+  Pošto skup nije uređena kolekcija, elementima se ne može pristupiti preko
+  indeksa (npr. <b>ocene[0]</b> bi izazvalo grešku). Skupovi se najčešće
+  koriste kada je bitno samo koje se vrednosti pojavljuju, a ne i njihov
+  redosled ili broj ponavljanja.
+</p>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napraviti rečnik koji predstavlja proizvod u prodavnici i sadrži
+  ključeve "naziv", "cena" i "kolicina". Ispisati poruku oblika: "Ukupna
+  vrednost je: X din." gde je X proizvod cene i količine. Zatim napraviti
+  skup sa nekoliko ponovljenih imena gradova. Videti da li će se duplikati zadržati i ispisati
+  nazive.<br /><br />
+  <b>2.</b> Napraviti rečnik koji predstavlja telefonski imenik (ključ je ime
+  osobe, vrednost je broj telefona) sa tri osobe. Dodati novu osobu, izmeniti
+  broj telefona jedne postojeće osobe, a zatim pomoću petlje ispisati sve
+  parove u obliku <b>ime: broj</b>.<br /><br />
+  <b>3.</b> Data je lista ocena sa ponavljanjima. Pomoću skupa ispisati
+  koliko različitih ocena lista sadrži, a zatim za svaku različitu ocenu
+  ispisati koliko se puta pojavljuje u listi (metoda <b>count()</b>).
+  <br />Pomoć: Za kreiranje skupa od liste koristiti <b>set(lista)</b>.
+</div>

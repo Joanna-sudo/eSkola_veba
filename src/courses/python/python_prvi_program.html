@@ -1,0 +1,187 @@
+<h1>Prvi Python program</h1>
+
+<p style="text-align: justify">
+  Najjednostavniji način da se isproba da li Python radi jeste da se napiše
+  program koji ispisuje poruku na ekranu.
+</p>
+
+<b>Primer 1 (Ispisivanje poruke na ekranu):</b> Ispisati poruku
+„Zdravo, svete!“ na ekranu.
+
+<p style="text-align: justify">
+  Kao što je ranije naglašeno, kod se može pisati u raznim editorima. U okviru ovog kursa biće prikazan rad u
+  Visual Studio Code-u. Za potrebe primera je na Desktopu unapred kreiran prazan folder pod nazivom
+  <span class="primer_text">PYTHON_FOLDER</span>, u kom ćemo čuvati fajlove sa kodom. Nakon pokretanja VS Code-a, otvara se početni (Welcome) ekran, na kom se klikom na opciju
+  <b>Open Folder...</b> bira i otvara taj folder:
+</p>
+
+<img
+  src="courses/python/img/vs_code_start.png"
+  class="img-fluid" style="width: 30%"
+/>
+
+<p style="text-align: justify">
+  Kada je folder otvoren, u panelu <b>Explorer</b> se klikom na ikonicu
+  <b>New File...</b> kreira novi fajl:
+</p>
+
+<img
+  src="courses/python/img/new_file.png"
+  class="img-fluid" style="width: 30%"
+/>
+
+<p style="text-align: justify">
+  Kod se čuva u fajlu sa ekstenzijom <b>.py</b>, na primer
+  <span class="primer_text">prvi_program.py</span>. Nakon što je fajl
+  kreiran, u njemu kucamo naš prvi program, koji treba da ispiše tekst
+  <b>Zdravo, svete!</b> na ekranu. Za ispisivanje se koristi ugrađena
+  funkcija <b>print()</b>, kojoj se u zagradama prosleđuje ono što želimo da
+  se ispiše. U ovom slučaju to je tekst, pa se zapisuje pod znacima
+  navoda:
+</p>
+
+<xmp class="primer_ta" title="">
+print("Zdravo, svete!")
+</xmp>
+
+<div class="napomena">
+  <b>Funkcije</b> su imenovani delovi koda koji obavljaju određeni zadatak i
+  mogu se pozvati (izvršiti) navođenjem njihovog imena praćenog zagradama
+  <b>()</b>. Unutar tih zagrada funkciji se mogu proslediti podaci potrebni
+  za njeno izvršavanje, koje nazivamo <b>argumentima</b>. Python sadrži
+  veliki broj <b>ugrađenih funkcija</b> (built-in functions), poput funkcije
+  <b>print()</b>, koje su uvek dostupne i ne moraju se posebno definisati
+  pre upotrebe.
+</div>
+
+<div class="napomena">
+  Za razliku od nekih drugih programskih jezika (npr. C ili Java),
+  Python ne zahteva postojanje posebne funkcije <b>main</b> od koje mora da počne izvršavanje
+  programa. Naredbe se izvršavaju redom, od vrha ka dnu fajla, onim redosledom kojim su napisane.  
+</div>
+
+<p style="text-align: justify">
+  Na slici ispod je prikazano kako sačuvan fajl izgleda otvoren u editoru
+  Visual Studio Code:
+</p>
+
+<img
+  src="courses/python/img/hello_world.png"
+  class="img-fluid" style="width: 30%"
+/>
+
+<p style="text-align: justify">Napisan program se može pokrenuti na više načina:</p>
+
+<p style="text-align: justify"><b>1. Klikom na dugme Run</b></p>
+
+<p style="text-align: justify">
+  Najjednostavniji način je da se, dok je otvoren fajl koji želimo da
+  pokrenemo, klikne na dugme <b>Run</b>
+  ( <img src="courses/python/img/run.png" class="icon-inline"/> ), koje se
+  tada nalazi u gornjem desnom uglu editora, bez potrebe za ručnim
+  unošenjem komande.
+</p>
+
+<p style="text-align: justify"><b>2. Preko terminala</b></p>
+
+<p style="text-align: justify">
+  Alternativno, program se može pokrenuti i preko terminala. Integrisani
+  terminal se u Visual Studio Code-u otvara preko menija
+  <b>Terminal &gt; New Terminal</b>:
+</p>
+
+<img
+  src="courses/python/img/new_terminal.png"
+  class="img-fluid" style="width: 30%"
+/>
+
+<p style="text-align: justify">
+  U terminalu se zatim, iz foldera u kom se fajl nalazi, unosi komanda:
+</p>
+
+<xmp class="primer_ta" title="">
+python prvi_program.py
+</xmp>
+
+<p style="text-align: justify">
+  Dobra praksa (<b>best practice</b>) prilikom rada na Python projektima je
+  da se za svaki projekat kreira posebno <b>virtuelno okruženje</b>
+  (<b>venv</b>), koje izoluje biblioteke i verziju Pythona korišćenu u tom
+  projektu od ostatka sistema.
+</p>
+
+<p style="text-align: justify">
+  Virtuelno okruženje se može kreirati preko terminala, komandama koje su
+  opisane na zvaničnom sajtu
+  <a
+    href="https://code.visualstudio.com/docs/python/python-tutorial"
+    target="_blank"
+    >code.visualstudio.com/docs/python/python-tutorial</a
+  >. Nakon aktiviranja, pored putanje u terminalu se prikazuje naziv
+  okruženja (npr. <span class="primer_text">(.venv)</span>), a program se
+  pokreće na isti način kao i pre. Kao rezultat, u konzoli se ispisuje tekst
+  <b>Zdravo, svete!</b>, kao na slici ispod:
+</p>
+
+<img
+  src="courses/python/img/terminal.png"
+  class="img-fluid" style="width: 30%"
+/>
+
+<p style="text-align: justify">
+  Virtuelno okruženje se može kreirati i preko instalirane Python
+  ekstenzije tako što se u panelu <span class="primer_text">Environment Managers</span>
+  klikne na znak <b>+</b> pored opcije <b>venv</b>, dok je u Visual Studio
+  Code-u otvoren folder u kom se želi raditi, nakon čega se bira način
+  kreiranja okruženja. Opcija <b>Quick Create</b> omogućava brzo kreiranje okruženja
+  sa podrazumevanim podešavanjima (biramo ovu opciju), dok <b>Custom</b> omogućava ručni
+  izbor verzije Pythona, lokacije i drugih opcija:
+</p>
+
+<img
+  src="courses/python/img/venv.png"
+  class="img-fluid" style="width: 15%"
+/>
+
+<div class="napomena">
+  Python takođe podržava i <b>interaktivni režim rada</b>. Ukoliko se u
+  komandnoj liniji samo unese komanda <b>python</b> (bez naziva fajla),
+  otvara se interpreter u kom se naredbe unose i izvršavaju jedna po jedna,
+  odmah nakon pritiska tastera Enter. Ovakav režim je koristan za brzo
+  isprobavanje kratkih delova koda.
+</div>
+
+<b>Primer 2 (Komentari u kodu):</b> Dodati jednolinijski i višelinijski
+komentar uz naredbu koja ispisuje poruku na ekranu.
+<xmp class="primer_ta" title="">
+# ovo je jednolinijski komentar
+print("Zdravo, svete!")  # komentar može stajati i na kraju linije
+
+"""
+Ovo je
+višelinijski komentar
+"""
+</xmp>
+
+<p style="text-align: justify">
+  Komentari služe za dodatna objašnjenja u kodu, kako nama samima tako i
+  drugima koji kasnije budu gledali taj kod, a
+  interpreter ih u potpunosti zanemaruje prilikom izvršavanja programa.
+  Jednolinijski komentar počinje
+  znakom <b>#</b>, a sve što se nalazi u tom redu nakon te tarabe smatra se
+  komentarom. Za višelinijske komentare koriste se tri navodnika
+  <b>"""</b> na početku i na kraju, pri čemu se sve što se nalazi između
+  njih, bez obzira na broj redova, smatra komentarom.
+</p>
+
+<div class="napomena">
+  U narednim lekcijama više nećemo prikazivati snimke ekrana editora Visual
+  Studio Code, ali podrazumeva se da se kod i dalje piše i pokreće na isti
+  način, kucanjem u fajlu sa ekstenzijom <b>.py</b> i pokretanjem preko
+  terminala.
+</div>
+
+<div class="zadatak">
+  <b>Zadatak:</b> Napisati program koji ispisuje vaše ime,
+  prezime i grad u kom živite.
+</div>

@@ -1,0 +1,143 @@
+<h1>Promenljive i tipovi podataka</h1>
+
+<p style="text-align: justify">
+  Promenljiva je naziv (identifikator) koji ukazuje na neku vrednost
+  smeštenu u memoriji. U Pythonu se promenljiva kreira jednostavnom dodelom
+  vrednosti pomoću operatora <b>=</b>, bez potrebe da se unapred navede njen
+  tip.
+</p>
+
+<h2>Kreiranje promenljivih</h2>
+
+<b>Primer 1 (Kreiranje promenljivih):</b> Kreirati četiri promenljive
+različitih tipova (tekst, dva broja i logička vrednost) i ispisati
+vrednosti prve dve.
+<xmp class="primer_ta" title="">
+ime = "Ana"
+godine = 25
+prosek = 9.4
+zaposlena = True
+
+print(ime)
+print(godine)
+</xmp>
+
+<p style="text-align: justify">
+  U prethodnoj lekciji je funkciji <b>print()</b> tekst prosleđivan pod
+  znacima navoda, npr. <span class="primer_text">print("Ana")</span>. Kada se
+  argument napiše pod navodnicima, Python ga tretira kao niz karaktera i
+  ispisuje tačno ono što je upisano. Ako se, međutim, u zagradama navede
+  naziv promenljive bez navodnika, npr. <span class="primer_text">print(ime)</span>,
+  Python to ne shvata kao tekst, već kao promenljivu: pronalazi vrednost
+  koja joj je prethodno dodeljena i ispisuje tu vrednost. Zato
+  <span class="primer_text">print("ime")</span> ispisuje reč <b>ime</b>, dok
+  <span class="primer_text">print(ime)</span> ispisuje <b>Ana</b>.
+</p>
+
+<p style="text-align: justify">
+  Funkciji <b>print()</b> može se proslediti vrednost različitih tipova. Ono
+  što se sme proslediti nekoj funkciji i šta ona sa tim radi određeno je
+  načinom na koji je ta funkcija definisana, a <b>print()</b> je definisana
+  tako da primljenu vrednost prvo pretvori u tekstualni oblik, pa je zatim
+  ispiše. Zato <span class="primer_text">print(godine)</span> radi iako je
+  <b>godine</b> broj; vrednost <b>25</b> se pre ispisa automatski pretvori u
+  tekst i prikaže. Isto važi i za decimalne brojeve i logičke vrednosti, pa
+  bi <span class="primer_text">print(prosek)</span> ispisalo <b>9.4</b>, a
+  <span class="primer_text">print(zaposlena)</span> ispisalo <b>True</b>.
+</p>
+
+<p style="text-align: justify">
+  <b>Pravila za imenovanje promenljivih:</b> naziv mora početi slovom ili donjom
+  crtom (_), može sadržati slova, cifre i donju crtu, ne sme sadržati
+  razmake i ne sme se poklapati sa ključnim rečima jezika (npr.
+  <b>print</b>, <b>if</b>, <b>for</b>). Python razlikuje velika i mala slova,
+  pa su <b>ime</b> i <b>Ime</b> dve različite promenljive.
+</p>
+
+<div class="napomena">
+  Kada naziv promenljive sadrži više reči, u Pythonu je konvencija da se te
+  reči pišu malim slovima i razdvajaju donjom crtom, npr.
+  <b>broj_kao_tekst</b>. Ovakav stil naziva se <b>snake_case</b>. Neki
+  drugi jezici (npr. JavaScript, Java) umesto toga koriste stil u kom
+  svaka sledeća reč počinje velikim slovom, bez donje crte, npr.
+  <b>brojKaoTekst</b>. Taj stil se naziva <b>camelCase</b>.<br /><br />
+  Poseban slučaj su <b>konstante</b> - promenljive čija vrednost ne treba
+  da se menja tokom izvršavanja programa (npr. matematička konstanta ili
+  maksimalan dozvoljen broj pokušaja). Iako Python nema pravu jezičku
+  podršku za konstante (svaka promenljiva se, tehnički, može naknadno
+  izmeniti), po PEP 8 konvenciji se njihov naziv piše svim velikim slovima,
+  uz donju crtu između reči, npr. <b>MAX_BROJ_POKUSAJA</b>. Ovaj stil se
+  naziva <b>UPPER_CASE</b>.
+</div>
+
+<h2>Tipovi podataka</h2>
+
+<p style="text-align: justify">
+  Pošto je Python dinamički tipiziran jezik, tip promenljive se određuje
+  automatski, na osnovu vrednosti koja joj je dodeljena, a isto ime
+  promenljive kasnije može dobiti vrednost sasvim drugog tipa. Osnovni
+  ugrađeni tipovi podataka su:
+</p>
+
+<ul>
+  <li><b>Integer</b> (<b>int</b>) - ceo broj, npr. 10, -3</li>
+  <li><b>Float</b> (<b>float</b>) - broj u pokretnom zarezu (decimalni broj), npr. 3.14</li>
+  <li>
+    <b>String</b> (<b>str</b>) - niska karaktera (tekst), koja se uvek
+    zapisuje pod znacima navoda, npr. <b>"Zdravo"</b> ili <b>'Zdravo'</b>
+  </li>
+  <li><b>Boolean</b> (<b>bool</b>) - logička vrednost, <b>True</b> ili <b>False</b></li>
+  <li>
+    <b>List</b> (<b>list</b>), <b>Tuple</b> (<b>tuple</b>),
+    <b>Dictionary</b> (<b>dict</b>), <b>Set</b> (<b>set</b>) - kolekcije
+    podataka, o kojima će biti reči u kasnijim lekcijama
+  </li>
+</ul>
+
+<p style="text-align: justify">
+  Tip promenljive u datom trenutku možemo proveriti pomoću funkcije
+  <b>type()</b>.
+</p>
+
+<b>Primer 2 (Provera tipa promenljive):</b> Promenljivoj dodeliti
+celobrojnu vrednost i proveriti njen tip, a zatim joj dodeliti tekstualnu
+vrednost i ponovo proveriti tip.
+<xmp class="primer_ta" title="">
+godine = 25
+print(type(godine))    # <class 'int'>
+
+godine = "dvadeset pet"
+print(type(godine))    # <class 'str'>
+</xmp>
+
+<p style="text-align: justify">
+  Ukoliko je potrebno eksplicitno pretvoriti vrednost iz jednog tipa u drugi
+  (npr. tekst unet sa tastature u broj), koriste se funkcije
+  <b>int()</b>, <b>float()</b> i <b>str()</b>.
+</p>
+
+<b>Primer 3 (Konverzija tipova):</b> Proveriti tip tekstualne vrednosti,
+pretvoriti je u ceo broj, ponovo proveriti tip, a zatim je sabrati sa
+drugim brojem.
+<xmp class="primer_ta" title="">
+broj_kao_tekst = "42"
+print(type(broj_kao_tekst))    # <class 'str'>
+
+broj = int(broj_kao_tekst)
+print(type(broj))              # <class 'int'>
+
+print(broj + 8)                 # 50
+</xmp>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napraviti promenljive za svoje ime i prezime, a zatim ispisati
+  vrednost svake od njih.<br /><br />
+  <b>2.</b> Napraviti promenljive <b>cena</b> (decimalni broj) i
+  <b>kolicina</b> (ceo broj), izračunati ukupnu vrednost kao njihov proizvod
+  i ispisati je. Pomoću funkcije <b>type()</b> proveriti i ispisati tip
+  dobijenog rezultata.<br /><br />
+  <b>3.</b> U promenljivu upisati broj zapisan kao tekst (npr. <b>"125"</b>)
+  i ispisati njegov tip. Pretvoriti ga u ceo broj, uvećati za 25, a zatim
+  ispisati novu vrednost i njen tip.
+</div>

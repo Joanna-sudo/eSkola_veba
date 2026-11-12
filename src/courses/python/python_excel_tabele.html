@@ -1,0 +1,217 @@
+<h1>Rad sa Excel tabelama</h1>
+
+<p style="text-align: justify">
+  Za razliku od običnih tekstualnih fajlova, Excel fajlovi (.xlsx) imaju
+  složeniju unutrašnju strukturu, pa se za rad sa njima koristi
+  specijalizovana biblioteka <b>openpyxl</b>.
+</p>
+
+<p style="text-align: justify">
+  Svi primeri u ovoj lekciji rade nad istom, jednostavnom tabelom pod
+  nazivom <b>prodaja.xlsx</b>, koja sadrži kolone <b>Proizvod</b>,
+  <b>Količina</b> i <b>Cena</b>:
+</p>
+
+<table class="tabela">
+  <thead>
+    <tr>
+      <th>Proizvod</th>
+      <th>Količina</th>
+      <th>Cena</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Jabuke</td>
+      <td>120</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <td>Kruške</td>
+      <td>85</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <td>Banane</td>
+      <td>150</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <td>Grožđe</td>
+      <td>60</td>
+      <td>250</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="text-align: justify">
+  Tabela se može preuzeti već gotova
+  (<a href="courses/python/files/prodaja.xlsx" target="_blank">prodaja.xlsx</a>),
+  ili ručno napraviti u Excel-u sa istim podacima, pod istim nazivom
+  fajla.
+</p>
+
+<h2>1. Instalacija biblioteke</h2>
+<p style="text-align: justify">
+  Biblioteka se instalira pomoću pip-a iz komandne linije:
+</p>
+
+<xmp class="primer_ta" title="">
+pip install openpyxl
+</xmp>
+
+<p style="text-align: justify">
+  Instalaciju je potrebno izvršiti samo jednom, u okruženju u kom se program pokreće.
+</p>
+
+<h2>2. Otvaranje postojeće Excel tabele</h2>
+<p style="text-align: justify">
+  Tabela se otvara pomoću funkcije <b>load_workbook()</b>, kojoj se
+  prosleđuje putanja do .xlsx fajla. Rezultat je objekat radne sveske
+  (<b>workbook</b>), koja se sastoji od jednog ili više listova
+  (<b>sheets</b>). Trenutno aktivan list dobija se preko osobine
+  <b>active</b>.
+</p>
+
+<b>Primer 1 (Ispis svih redova tabele):</b> Otvoriti Excel tabelu i
+ispisati sve njene redove.
+<xmp class="primer_ta" title="">
+from openpyxl import load_workbook
+
+radna_sveska = load_workbook("prodaja.xlsx")
+radni_list = radna_sveska.active
+
+for red in radni_list.iter_rows(values_only=True):
+    print(red)
+</xmp>
+
+<p style="text-align: justify">
+  Metoda <b>iter_rows()</b> prolazi kroz sve redove lista. Argument
+  <b>values_only=True</b> govori da nas zanimaju samo vrednosti ćelija (bez
+  dodatnih tehničkih podataka), pa svaki red dobijamo u obliku torke.
+</p>
+
+<div class="napomena">
+  Osobina <b>active</b> vraća list koji je bio otvoren u trenutku kada je Excel
+  fajl poslednji put sačuvan. Kada radna sveska ima samo jedan list, kao u
+  primerima ove lekcije, to je uvek upravo taj list. Ukoliko sveska ima više
+  listova, pouzdanije je list izdvojiti po nazivu, navođenjem naziva u
+  uglastim zagradama, npr. <b>radna_sveska["Naziv lista"]</b>. Nazivi svih
+  listova u svesci dobijaju se preko osobine <b>sheetnames</b>.
+</div>
+
+<h2>3. Pristup pojedinačnim ćelijama</h2>
+<p style="text-align: justify">
+  Pojedinačnoj ćeliji se može pristupiti na dva načina: preko naziva ćelije
+  (kao u samom Excel-u, npr. <b>"A1"</b>) ili preko rednog broja reda i
+  kolone, korišćenjem metode <b>cell()</b>.
+</p>
+
+<b>Primer 2 (Čitanje pojedinačnih ćelija):</b> Nastavlja se rad sa
+tabelom otvorenom u prethodnom primeru (Primer 1). Ispisati naziv prvog
+proizvoda preko naziva ćelije, i njegovu cenu preko rednog broja reda i
+kolone.
+<xmp class="primer_ta" title="">
+print(radni_list["A2"].value)                    # Jabuke
+print(radni_list.cell(row=2, column=3).value)     # 90
+</xmp>
+
+<div class="napomena">
+  Numeracija redova i kolona kod metode <b>cell()</b> počinje od <b>1</b>,
+  a ne od 0, kako je inače uobičajeno u Pythonu (npr. kod indeksa listi i
+  stringova). Tako <b>row=1, column=1</b> odgovara
+  ćeliji <b>A1</b>.
+</div>
+
+<h2>4. Izmena i dodavanje podataka u tabeli</h2>
+<p style="text-align: justify">
+  Vrednost ćelije se menja jednostavnom dodelom nove vrednosti osobini
+  <b>value</b>, a izmene se u fajl upisuju tek nakon poziva metode
+  <b>save()</b>.
+</p>
+
+<b>Primer 3 (Povećanje cene svakog proizvoda za 10%):</b> Učitati Excel
+tabelu, uvećati cenu svakog proizvoda za 10% i sačuvati izmene u novi
+fajl.
+<xmp class="primer_ta" title="">
+from openpyxl import load_workbook
+
+radna_sveska = load_workbook("prodaja.xlsx")
+radni_list = radna_sveska.active
+
+for red in range(2, radni_list.max_row + 1):
+    cena = radni_list.cell(row=red, column=3).value
+    radni_list.cell(row=red, column=3).value = round(cena * 1.1, 2)
+
+radna_sveska.save("prodaja_izmenjena.xlsx")
+</xmp>
+
+<div class="napomena">
+  Osobina <b>max_row</b> vraća redni broj poslednjeg reda koji sadrži
+  podatke. Petlja u primeru kreće od reda <b>2</b> jer se u prvom redu
+  (red 1) obično nalaze nazivi kolona (zaglavlje tabele), koje ne želimo da
+  menjamo.
+</div>
+
+<div class="napomena">
+  Ugrađena funkcija <b>round(broj, n)</b> zaokružuje broj na <b>n</b>
+  decimala. U primeru je iskorišćena da bi nove cene bile zaokružene na dve
+  decimale, jer računanje sa decimalnim brojevima može dati rezultat sa
+  mnogo decimala).
+</div>
+
+<p style="text-align: justify">
+  Na isti način se podaci upisuju i u ćelije koje su do tada bile prazne.
+  Dovoljno je dodeliti vrednost ćeliji u novoj koloni ili novom redu, pa
+  tabela na taj način dobija novu kolonu, odnosno novi red. Ceo novi red se
+  može dodati i odjednom, na kraj tabele, pomoću metode <b>append()</b>,
+  kojoj se prosleđuje lista vrednosti (po jedna za svaku kolonu).
+</p>
+
+<b>Primer 4 (Dodavanje nove kolone i novog reda):</b> U tabelu dodati novi
+red sa podacima o još jednom proizvodu, a zatim i novu kolonu
+<b>Cena sa PDV-om</b>, u kojoj se za svaki proizvod nalazi njegova cena
+uvećana za 20%. Izmene sačuvati u novi fajl.
+<xmp class="primer_ta" title="">
+from openpyxl import load_workbook
+
+radna_sveska = load_workbook("prodaja.xlsx")
+radni_list = radna_sveska.active
+
+# dodaje se novi red na kraju tabele
+radni_list.append(["Šljive", 70, 130])
+
+# dodaje se nova kolona (kolona D) - prvo naziv kolone, pa vrednost za svaki red
+radni_list.cell(row=1, column=4).value = "Cena sa PDV-om"
+for red in range(2, radni_list.max_row + 1):
+    cena = radni_list.cell(row=red, column=3).value
+    radni_list.cell(row=red, column=4).value = round(cena * 1.2, 2)
+
+radna_sveska.save("prodaja_dopunjena.xlsx")
+</xmp>
+
+<p style="text-align: justify">
+  Novi red je dodat pre popunjavanja kolone, pa osobina <b>max_row</b> u
+  petlji obuhvata i njega - tako i novi proizvod dobija svoju cenu sa
+  PDV-om.
+</p>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Ručno, u samom Excel-u, kreirati tabelu sa kolonama
+  <b>Proizvod</b>, <b>Količina</b> i <b>Cena</b> za nekoliko proizvoda i
+  sačuvati je kao .xlsx fajl. Zatim napisati Python program koji učitava tu
+  tabelu, uvećava cenu svakog proizvoda za 20% i čuva rezultat kao novi
+  .xlsx fajl. Na kraju novi fajl otvoriti u Excel-u i proveriti da li su
+  cene izmenjene.<br /><br />
+  <b>2.</b> Napisati Python program koji otvara tabelu <b>prodaja.xlsx</b>
+  i dodaje joj četvrtu kolonu (kolonu D). U prvi red te kolone (ćelija
+  <b>D1</b>) program upisuje naziv kolone <b>Vrednost</b>, a u svaki naredni
+  red rezultat množenja količine i cene iz tog istog reda. Tako izmenjenu
+  tabelu program čuva kao novi fajl, a zatim u konzoli ispisuje ukupnu
+  vrednost zaliha, odnosno zbir svih vrednosti upisanih u kolonu D. Novi
+  fajl otvoriti u Excel-u i proveriti da li je kolona dodata.<br /><br />
+  <b>3.</b> Napisati Python program koji otvara tabelu <b>prodaja.xlsx</b>,
+  pronalazi red sa najvećom vrednošću u koloni <b>Količina</b> i u konzoli
+  ispisuje naziv proizvoda iz tog reda.
+</div>

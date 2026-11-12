@@ -1,0 +1,495 @@
+<h1>Pozivanje AI modela iz Python koda</h1>
+
+<p style="text-align: justify">
+  Do sada smo pisali programe u kojima smo mi, korak po korak, opisivali
+  šta računar treba da uradi. U ovoj lekciji videćemo kako se iz Python
+  programa može pozvati <b>AI model</b>, odnosno model veštačke
+  inteligencije (engl. <i>Artificial Intelligence</i>, skraćeno
+  <b>AI</b>), koji razume zadatke napisane običnim jezikom, i kako mu se
+  može zadati <b>uloga</b> (na primer: „ti si nastavnik matematike“, „ti si lektor“,
+  „ti si turistički vodič“), koja utiče na to kako će odgovarati.
+</p>
+
+<p style="text-align: justify">
+  Kao primer koristićemo modele <b>Gemini</b> kompanije <b>Google</b>,
+  jer imaju <b>besplatan nivo korišćenja</b> (engl. <i>free tier</i>),
+  dovoljan za učenje i vežbu. Princip je isti i kod drugih AI modela
+  (Claude kompanije Anthropic, GPT kompanije OpenAI...): program šalje <b>zahtev</b> (poruku) preko
+  interneta, a model vraća <b>odgovor</b> u obliku teksta, koji se dalje može
+  obrađivati u kodu kao i svaki drugi string.
+</p>
+
+<h2>1. Šta je API i šta je potrebno za rad</h2>
+<p style="text-align: justify">
+  AI model se ne nalazi na našem računaru, već na serverima kompanije
+  koja ga je napravila. Programi mu pristupaju preko <b>API-ja</b> (engl.
+  <i>Application Programming Interface</i>), odnosno skupa pravila kako
+  se šalju zahtevi i kako izgledaju odgovori. Da se slanje zahteva
+  preko interneta ne bi pisalo ručno, koristi se gotov paket
+  <b>google-genai</b>, koji se instalira pomoću alata <b>pip</b> (obrađen u
+  lekciji o modulima i paketima).
+</p>
+
+<xmp class="primer_ta" title="">
+pip install google-genai
+</xmp>
+
+<p style="text-align: justify">
+  Pored paketa, potreban je i <b>API ključ</b>, tajna šifra po kojoj
+  server zna ko šalje zahtev. Ključ se dobija besplatno, prijavom preko Google
+  naloga na sajt
+  <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>
+  i klikom na dugme <b>Create API key</b>. Za besplatan nivo nije
+  potrebna platna kartica.
+</p>
+
+<div class="napomena">
+  Besplatan nivo ima <b>ograničenja</b>: dozvoljen je samo određen broj
+  zahteva u minutu i u toku jednog dana (tačna ograničenja za svaki model
+  mogu se videti u Google AI Studio-u). Takođe, Google podatke poslate
+  kroz besplatan nivo može koristiti za unapređenje svojih proizvoda, pa
+  modelu <b>ne treba slati lične i poverljive podatke</b>.
+</div>
+
+<div class="napomena">
+  API ključ je kao lozinka: <b>nikada</b> ga ne treba upisivati direktno
+  u kod, slati drugima ili postavljati na internet (npr. na GitHub), jer
+  bi bilo ko mogao da ga koristi umesto vas. Ključ se čuva u
+  <b>promenljivoj okruženja</b> (engl. <i>environment variable</i>)
+  operativnog sistema pod imenom <b>GEMINI_API_KEY</b>, odakle ga
+  paket google-genai sam pronalazi.
+</div>
+
+<p style="text-align: justify">
+  Na Windows-u se promenljiva okruženja trajno postavlja tako što se u
+  terminalu (Command Prompt) izvrši sledeća komanda, pri čemu se umesto
+  teksta <b>vas-kljuc</b> upisuje dobijeni ključ:
+</p>
+
+<xmp class="primer_ta" title="">
+setx GEMINI_API_KEY "vas-kljuc"
+</xmp>
+
+<div class="napomena">
+  Nakon izvršavanja komande <b>setx</b> potrebno je zatvoriti i ponovo
+  otvoriti VS Code (i terminal), jer programi novu promenljivu vide tek
+  kada se ponovo pokrenu. Ukoliko je otvoreno više prozora VS Code-a,
+  potrebno je zatvoriti <b>sve prozore</b>, a ne samo onaj u kome se
+  radi. Na macOS-u i Linux-u se umesto komande setx koristi komanda
+  <b>export GEMINI_API_KEY="vas-kljuc"</b>. Promenljiva postavljena
+  komandom export važi samo dok traje ta sesija terminala, pa terminal
+  <b>ne treba zatvarati</b>, a program se pokreće iz tog istog
+  terminala. U svakom novom terminalu komandu treba izvršiti ponovo.
+</div>
+
+<h2>2. Prvi poziv AI modela</h2>
+<p style="text-align: justify">
+  Komunikacija sa modelom odvija se preko objekta klase <b>Client</b>
+  (klijenta) i njegove metode <b>models.generate_content()</b>, kojoj se
+  prosleđuju dva osnovna parametra:
+</p>
+<ul>
+  <li><b>model</b> - naziv modela koji se koristi,</li>
+  <li><b>contents</b> - tekst (pitanje ili zadatak) koji se šalje modelu.</li>
+</ul>
+<p style="text-align: justify">
+  Tekst odgovora nalazi se u osobini <b>text</b> objekta koji metoda
+  vraća.
+</p>
+
+<b>Primer 1 (Prvo pitanje za AI model):</b> Postaviti AI modelu jedno pitanje
+i ispisati odgovor.
+<xmp class="primer_ta" title="">
+from google import genai
+
+MODEL = "gemini-3.6-flash"
+
+klijent = genai.Client()
+
+odgovor = klijent.models.generate_content(
+    model=MODEL,
+    contents="Objasni u dve rečenice šta je promenljiva u programiranju.",
+)
+
+print(odgovor.text)
+</xmp>
+
+<div class="napomena">
+  Naziv modela je namerno smešten u promenljivu <b>MODEL</b> na početku
+  programa. AI modeli se često menjaju: izlaze nove verzije, a stare se
+  posle nekog vremena ukidaju. Kada se to dogodi, dovoljno je izmeniti
+  naziv modela na jednom mestu. Kako se dobija spisak trenutno dostupnih
+  modela, objašnjeno je u poglavlju 7.
+</div>
+
+<h2>3. Zadavanje uloge - sistemska poruka</h2>
+<p style="text-align: justify">
+  Uloga se modelu zadaje pomoću <b>sistemske poruke</b> (engl.
+  <i>system instruction</i>). To je uputstvo koje važi za ceo razgovor i
+  koje model poštuje pri svakom odgovoru. U njemu se obično navodi
+  <b>ko je</b> model (uloga), <b>kome se obraća</b>, i <b>kako treba da
+  odgovara</b> (dužina, ton, jezik, format). Sistemska poruka se
+  prosleđuje kroz parametar <b>config</b>, kao objekat klase
+  <b>GenerateContentConfig</b> iz modula <b>types</b>.
+</p>
+
+<b>Primer 2 (Model u ulozi nastavnika):</b> Zadati modelu ulogu strpljivog
+nastavnika matematike za učenike petog razreda i postaviti mu pitanje.
+<xmp class="primer_ta" title="">
+from google import genai
+from google.genai import types
+
+MODEL = "gemini-3.5-flash-lite"
+
+klijent = genai.Client()
+
+uloga = (
+    "Ti si strpljiv nastavnik matematike u osnovnoj školi. "
+    "Obraćaš se učenicima petog razreda, pa koristiš jednostavne reči "
+    "i primere iz svakodnevnog života. Odgovaraš na srpskom jeziku, "
+    "najviše u pet rečenica."
+)
+
+odgovor = klijent.models.generate_content(
+    model=MODEL,
+    contents="Šta su razlomci?",
+    config=types.GenerateContentConfig(system_instruction=uloga),
+)
+
+print(odgovor.text)
+</xmp>
+
+<p style="text-align: justify">
+  Najbolji način da se vidi koliko uloga utiče na odgovor je da se
+  <b>isto pitanje</b> postavi modelu u nekoliko različitih uloga. Uloge
+  ćemo čuvati u rečniku (ključ je naziv uloge, a vrednost je sistemska
+  poruka) i proći kroz njega pomoću <b>for</b> petlje.
+</p>
+
+<b>Primer 3 (Isto pitanje, različite uloge):</b> Postaviti isto pitanje
+modelu u tri različite uloge i ispisati sve odgovore.
+<xmp class="primer_ta" title="">
+from google import genai
+from google.genai import types
+
+MODEL = "gemini-3.5-flash-lite"
+
+klijent = genai.Client()
+
+uloge = {
+    "Naučnik": "Ti si fizičar. Odgovaraš stručno i precizno, u najviše tri rečenice.",
+    "Pesnik": "Ti si pesnik. Na svako pitanje odgovaraš kratkom pesmom od četiri stiha.",
+    "Vaspitačica": "Ti si vaspitačica u vrtiću. Odgovaraš tako da razume dete od pet godina, u najviše tri rečenice.",
+}
+
+pitanje = "Zašto je nebo plavo?"
+
+for naziv, uloga in uloge.items():
+    odgovor = klijent.models.generate_content(
+        model=MODEL,
+        contents=pitanje,
+        config=types.GenerateContentConfig(system_instruction=uloga),
+    )
+    print("---", naziv, "---")
+    print(odgovor.text)
+    print()
+</xmp>
+
+<h2>4. Funkcija za pozivanje AI modela</h2>
+<p style="text-align: justify">
+  Pošto se isti kod za slanje zahteva ponavlja, zgodno ga je smestiti u
+  <b>funkciju</b> (obrađene u ranijoj lekciji), koja kao parametre prima
+  ulogu i pitanje, a vraća tekst odgovora.
+</p>
+
+<b>Primer 4 (Funkcija pitaj_ai):</b> Napisati funkciju koja za zadatu
+ulogu i pitanje vraća odgovor modela kao string.
+<xmp class="primer_ta" title="">
+from google import genai
+from google.genai import types
+
+MODEL = "gemini-3.5-flash-lite"
+
+klijent = genai.Client()
+
+def pitaj_ai(uloga, pitanje):
+    odgovor = klijent.models.generate_content(
+        model=MODEL,
+        contents=pitanje,
+        config=types.GenerateContentConfig(system_instruction=uloga),
+    )
+    return odgovor.text
+
+prevodilac = "Ti si prevodilac. Svaki tekst koji dobiješ prevodiš na engleski jezik i vraćaš samo prevod, bez objašnjenja."
+print(pitaj_ai(prevodilac, "Dobar dan, kako ste?"))
+
+kuvar = "Ti si kuvar. Za zadate namirnice predlažeš jedno jednostavno jelo i ukratko opisuješ pripremu."
+print(pitaj_ai(kuvar, "Imam jaja, krompir i luk."))
+</xmp>
+
+<h2>5. Razgovor u više koraka (čet)</h2>
+<p style="text-align: justify">
+  AI model <b>ne pamti</b> prethodne zahteve: svaki poziv metode
+  <b>generate_content()</b> je za njega potpuno nov. Da bi model „znao“ šta
+  je ranije rečeno, pri svakom novom pitanju mu se mora poslati <b>cela
+  istorija razgovora</b>. Paket google-genai to radi umesto nas pomoću
+  objekta <b>chat</b>, koji se pravi metodom <b>chats.create()</b>. Čet
+  sam čuva istoriju, a nova poruka se šalje metodom
+  <b>send_message()</b>.
+</p>
+
+<b>Primer 5 (Čet sa modelom u ulozi turističkog vodiča):</b> Napraviti program u kome
+korisnik razgovara sa modelom u ulozi turističkog vodiča, sve dok ne
+ukuca reč „kraj“.
+<xmp class="primer_ta" title="">
+from google import genai
+from google.genai import types
+
+MODEL = "gemini-3.5-flash-lite"
+
+klijent = genai.Client()
+
+uloga = (
+    "Ti si ljubazan turistički vodič kroz Srbiju. "
+    "Preporučuješ mesta za obilazak, hranu i zanimljivosti. "
+    "Odgovaraš kratko, u najviše četiri rečenice."
+)
+
+cet = klijent.chats.create(
+    model=MODEL,
+    config=types.GenerateContentConfig(system_instruction=uloga),
+)
+
+while True:
+    pitanje = input("Vi: ")
+    if pitanje == "kraj":
+        break
+
+    odgovor = cet.send_message(pitanje)
+    print("Vodič:", odgovor.text)
+</xmp>
+
+<div class="napomena">
+  Zahvaljujući istoriji koju čet čuva, na pitanje „A šta da jedem
+  tamo?“ model zna na koje se mesto odnosi reč „tamo“. Treba imati na umu
+  da se istorija šalje pri svakom pitanju, pa duži razgovor brže troši
+  ograničenja besplatnog nivoa.
+</div>
+
+<h2>6. Obrada teksta iz fajla</h2>
+<p style="text-align: justify">
+  Prava snaga ovog pristupa vidi se kada se AI model kombinuje sa onim što
+  smo već naučili, na primer sa čitanjem i upisom u fajlove. Program može
+  da pročita tekst iz fajla, prosledi ga modelu sa odgovarajućom ulogom, i
+  rezultat sačuva u novi fajl, bez ikakvog ručnog rada.
+</p>
+
+<b>Primer 6 (Model u ulozi lektora):</b> U folderu u kojem se nalazi program, kreirati fajl
+  <b>sastav.txt</b> i u njega upisati nekoliko rečenica sa namerno napravljenim pravopisnim
+  i gramatičkim greškama. Napisati program koji će pročitati tekst iz fajla sastav.txt, dati
+  ga modelu u ulozi lektora i ispravljen tekst sačuvati u fajl sastav_ispravljen.txt.
+<xmp class="primer_ta" title="">
+from google import genai
+from google.genai import types
+
+MODEL = "gemini-3.5-flash-lite"
+
+klijent = genai.Client()
+
+uloga = (
+    "Ti si lektor srpskog jezika. Ispravljaš pravopisne i gramatičke "
+    "greške u tekstu koji dobiješ, ne menjaš smisao i stil teksta, "
+    "i vraćaš isključivo ispravljen tekst, bez ikakvih komentara."
+)
+
+with open("sastav.txt", "r", encoding="utf-8") as fajl:
+    tekst = fajl.read()
+
+odgovor = klijent.models.generate_content(
+    model=MODEL,
+    contents=tekst,
+    config=types.GenerateContentConfig(system_instruction=uloga),
+)
+
+with open("sastav_ispravljen.txt", "w", encoding="utf-8") as fajl:
+    fajl.write(odgovor.text)
+
+print("Ispravljen tekst je sačuvan u fajl sastav_ispravljen.txt")
+</xmp>
+
+<div class="napomena">
+  Kada se odgovor modela dalje koristi u programu (upisuje u fajl,
+  obrađuje...), u ulozi je važno jasno naglasiti da model vrati
+  <b>samo traženi rezultat</b>, bez uvoda poput „Evo ispravljenog
+  teksta:“. Takođe, treba imati na umu da model može da pogreši, pa je
+  rezultat uvek dobro proveriti.
+</div>
+
+<h2>7. Spisak trenutno dostupnih modela</h2>
+<p style="text-align: justify">
+  Kompanije koje prave AI modele redovno izbacuju nove verzije, a stare
+  posle nekog vremena mogu da povuku iz upotrebe. Zato naziv modela koji danas radi
+  (npr. <b>gemini-3.5-flash-lite</b>) za nekoliko meseci možda više neće
+  postojati. Umesto nagađanja, spisak trenutno dostupnih modela može se
+  dobiti direktno iz koda: skoro svaki AI servis ima metodu
+  <b>models.list()</b>, koja vraća sve modele dostupne sa datim API
+  ključem.
+</p>
+
+<b>Primer 7 (Spisak svih Gemini modela):</b> Ispisati nazive svih
+Gemini modela dostupnih sa datim API ključem.
+<xmp class="primer_ta" title="">
+from google import genai
+
+klijent = genai.Client()
+
+for model in klijent.models.list():
+    print(model.name, "-", model.display_name)
+</xmp>
+
+<div class="napomena">
+  Nazivi se ispisuju sa prefiksom <b>models/</b> (npr.
+  <b>models/gemini-3.5-flash-lite</b>), a u kodu se navodi deo posle
+  prefiksa.
+</div>
+
+<p style="text-align: justify">
+  Spisak dobijen u prethodnom primeru sadrži modele različitih namena,
+  na primer modele za pretvaranje teksta u govor ili obradu zvuka.
+  Svaki model u listi <b>supported_actions</b> navodi koje akcije podržava.
+  Ako želimo da izdvojimo samo modele koji podržavaju generisanje sadržaja (<b>generateContent</b>),
+  možemo ih izdvojiti pomoću uslova <b>if</b>.
+</p>
+
+<b>Primer 8 (Spisak Gemini modela koji generišu sadržaj):</b> Ispisati
+nazive samo onih Gemini modela koji mogu da generišu sadržaj.
+<xmp class="primer_ta" title="">
+from google import genai
+
+klijent = genai.Client()
+
+for model in klijent.models.list():
+    if "generateContent" in model.supported_actions:
+        print(model.name, "-", model.display_name)
+</xmp>
+
+<div class="napomena">
+  Koji od ovih modela su besplatni, može se proveriti na stranici
+  <a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank">ai.google.dev/gemini-api/docs/pricing</a>.
+</div>
+
+<div class="napomena">
+  Spisak aktuelnih modela, zajedno sa cenama i datumima ukidanja starih
+  modela, može se pogledati i na zvaničnim stranicama kompanija:
+  <a href="https://ai.google.dev/gemini-api/docs/models" target="_blank">Gemini modeli</a>,
+  <a href="https://platform.claude.com/docs/en/models/overview" target="_blank">Claude modeli</a>
+  i
+  <a href="https://developers.openai.com/api/docs/models" target="_blank">OpenAI modeli</a>.
+  Ko želi da isproba i modele drugih kompanija, na tim stranicama može
+  da proveri uslove korišćenja i da li nude neku besplatnu opciju.
+</div>
+
+<h2>8. Kod je radio, a sada ne radi - zašto?</h2>
+<p style="text-align: justify">
+  Kod programa koji koriste AI modele često se dešava da program koji je juče
+  ispravno radio danas prijavi grešku, iako u kodu ništa nije menjano.
+  Pre nego što se krene u traženje greške u kodu, treba znati da su
+  <b>najčešći razlozi</b> za to sledeći:
+</p>
+
+<div class="napomena">
+  <b>1. Iskorišćeno je ograničenje (kvota) besplatnog nivoa.</b> Poslato
+  je više zahteva nego što je dozvoljeno u minutu ili u toku dana. Server
+  tada vraća grešku sa kodom <b>429</b> (<b>RESOURCE_EXHAUSTED</b>).
+  Rešenje: sačekati minut (ako je prekoračeno ograničenje u minutu), ili
+  sačekati sledeći dan.
+  Drugo rešenje je privremeno preći na neki drugi besplatan model, koji
+  ima svoje posebno ograničenje.<br /><br />
+  <b>2. Model koji koristimo više nije dostupan.</b> Model je ukinut ili
+  mu je promenjen naziv. Server tada vraća grešku u čijoj poruci piše
+  da model nije pronađen (engl. <i>is not found</i>). Ista greška se
+  dobija i kada je naziv modela pogrešno otkucan. Rešenje: pomoću koda
+  iz poglavlja 7 pronaći naziv nekog aktuelnog modela i upisati ga u
+  promenljivu <b>MODEL</b>.
+</div>
+
+<p style="text-align: justify">
+  Greška zbog nedostupnog modela ima kod <b>404</b>
+  (<b>NOT_FOUND</b>), ali taj kod znači samo da nešto što je traženo
+  nije pronađeno, pa se može javiti i iz drugih razloga. Zato se uzrok
+  ne određuje samo na osnovu koda, već se čita i poruka servera.
+</p>
+
+<p style="text-align: justify">
+  Ostale greške su ređe, na primer neispravan API ključ ili privremeni
+  problem na serveru. Za njih je najbolje ispisati kod i poruku koju je
+  server poslao, jer poruka obično sama objašnjava šta nije u redu.
+  Spisak svih kodova grešaka nalazi se na stranici
+  <a href="https://ai.google.dev/gemini-api/docs/generate-content/api-errors" target="_blank">ai.google.dev/gemini-api/docs/generate-content/api-errors</a>.
+</p>
+
+<p style="text-align: justify">
+  Da bi korisnik umesto dugačke poruke o grešci dobio jasno objašnjenje,
+  poziv modela se stavlja u <b>try/except</b> blok (obrađen u lekciji o
+  izuzecima). Paket google-genai sve greške koje vrati server podiže kao
+  izuzetak <b>APIError</b>. Kod greške se nalazi u osobini <b>code</b>,
+  a poruka servera u osobini <b>message</b>. Ukoliko nema internet veze,
+  zahtev ne stiže do servera, pa se javlja greška druge vrste, koju
+  naredni primer ne obrađuje.
+</p>
+
+<b>Primer 9 (Obrada grešaka pri pozivu modela):</b> Pozvati model i, ukoliko
+dođe do greške, za iskorišćeno ograničenje ispisati razumljivo
+objašnjenje, a za ostale greške kod i poruku servera.
+<xmp class="primer_ta" title="">
+from google import genai
+from google.genai import types, errors
+
+MODEL = "gemini-3.8-flash"
+
+klijent = genai.Client()
+
+try:
+    odgovor = klijent.models.generate_content(
+        model=MODEL,
+        contents="Opiši gol u poslednjem minutu utakmice.",
+        config=types.GenerateContentConfig(
+            system_instruction="Ti si sportski komentator. Odgovaraš uzbuđeno, u dve rečenice."
+        ),
+    )
+    print(odgovor.text)
+except errors.APIError as greska:
+    if greska.code == 429:
+        print("Iskorišćeno je ograničenje besplatnog nivoa.")
+        print("Sačekajte minut ili do sutra, ili promenite model.")
+    else:
+        print("Greška", greska.code, ":", greska.message)
+</xmp>
+
+<div class="napomena">
+  Ukoliko promenljiva okruženja <b>GEMINI_API_KEY</b> uopšte nije
+  postavljena, greška se javlja već pri pravljenju klijenta
+  (<b>genai.Client()</b>), sa porukom da API ključ nije pronađen. U tom
+  slučaju treba proveriti korak iz prvog poglavlja, zatvoriti sve
+  otvorene prozore VS Code-a i ponovo ga pokrenuti.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napisati program koji modelu zadaje ulogu „istoričara“ i
+  traži od njega da u tri rečenice opiše jedan istorijski događaj po
+  izboru korisnika (događaj se unosi preko funkcije <b>input()</b>).<br /><br />
+  <b>2.</b> Pomoću funkcije <b>pitaj_ai</b> iz Primera 4 napraviti
+  rečnik sa bar tri uloge po vašem izboru (npr. trener, doktor, komičar)
+  i za svaku ulogu ispisati odgovor na pitanje „Kako da provedem
+  vikend?“. Uporediti dobijene odgovore.<br /><br />
+  <b>3.</b> Napraviti „AI kviz“: model u ulozi kviz-voditelja postavlja
+  korisniku pitanja iz geografije, jedno po jedno, proverava odgovor i
+  na kraju saopštava broj tačnih odgovora. Iskoristiti čet kao u
+  Primeru 5.<br /><br />
+  <b>4.</b> Pokrenuti Primer 8 i iz dobijenog spiska izabrati neki drugi
+  Gemini model (npr. neki čiji naziv sadrži reč <b>lite</b>). Upisati
+  njegov naziv u promenljivu <b>MODEL</b> u Primeru 2, pokrenuti program
+  i uporediti odgovor sa odgovorom koji je dao model
+  <b>gemini-3.6-flash</b>.
+</div>

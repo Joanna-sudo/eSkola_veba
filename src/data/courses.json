@@ -5108,5 +5108,164 @@
         "sublessons": null
       }
     ]
+  },
+  {
+    "name": "Python",
+    "id": "python",
+    "logo": "<i class='fab fa-python' aria-hidden='true'></i>",
+    "type": "book",
+    "lang": "",
+    "displayLang": "",
+    "sections": ["programski_jezici"],
+    "detailsText": "Python je interpretirani programski jezik opšte namene koji se odlikuje jednostavnom i lako čitljivom sintaksom. Zbog toga je pogodan za početnike, ali i dovoljno moćan za razvoj složenih aplikacija. Ima široku primenu u različitim oblastima, uključujući razvoj veb aplikacija, automatizaciju zadataka, obradu i analizu podataka, mašinsko učenje i veštačku inteligenciju. Jedna od njegovih najvećih prednosti je veliki broj dostupnih biblioteka koje omogućavaju brzo i efikasno rešavanje različitih problema.",
+    "lessons": [
+      {
+        "name": "Uvod u Python",
+        "url": "python_uvod",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Instalacija i podešavanje okruženja",
+        "url": "python_instalacija",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Prvi Python program",
+        "url": "python_prvi_program",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Promenljive i tipovi podataka",
+        "url": "python_promenljive_i_tipovi_podataka",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Operatori",
+        "url": "python_operatori",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Rad sa niskama (stringovima)",
+        "url": "python_stringovi",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Uslovni izrazi",
+        "url": "python_uslovni_izrazi",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Petlje",
+        "url": "python_petlje",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Liste",
+        "url": "python_liste",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Torke, rečnici i skupovi",
+        "url": "python_torke_i_recnici",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Funkcije",
+        "url": "python_funkcije",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Klase i objekti",
+        "url": "python_klase_i_objekti",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Moduli, paketi i pip",
+        "url": "python_moduli_i_paketi",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Rukovanje izuzecima (try/except)",
+        "url": "python_izuzeci",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Rad sa tekstualnim fajlovima",
+        "url": "python_rad_sa_fajlovima",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Rad sa JSON i CSV fajlovima",
+        "url": "python_json_csv",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Rad sa Excel tabelama",
+        "url": "python_excel_tabele",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Statistika i grafici",
+        "url": "python_statistika_i_grafici",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Čitanje Word dokumenata i brojanje karaktera",
+        "url": "python_word_citanje_i_brojanje_karaktera",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Izmena header-a i stilova u Word dokumentu",
+        "url": "python_word_izmena_headera_i_stilova",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      },
+      {
+        "name": "Pozivanje AI modela iz Python koda",
+        "url": "python_ai_zadavanje_uloge",
+        "type": "lesson",
+        "parentCourse": "python",
+        "sublessons": null
+      }
+    ]
   }
 ]

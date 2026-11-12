@@ -1,0 +1,179 @@
+<h1>Petlje</h1>
+
+<p style="text-align: justify">
+  Petlje omogućavaju da se određeni deo koda izvrši više puta uzastopno.
+  Python nudi dve vrste petlji: <b>for</b> i <b>while</b>.
+</p>
+
+<h2>1. Petlja for</h2>
+<p style="text-align: justify">
+  Petlja <b>for</b> se koristi kada unapred znamo kroz koliko elemenata (ili
+  koliko puta) treba proći. Često se kombinuje sa funkcijom
+  <b>range()</b>, koja generiše niz brojeva.
+</p>
+
+<b>Primer 1 (Petlja for sa range()):</b> Pomoću petlje ispisati brojeve
+od 0 do 4.
+<xmp class="primer_ta" title="">
+for i in range(5):
+    print(i)
+
+# ispisuje brojeve 0, 1, 2, 3, 4
+</xmp>
+
+<div class="napomena">
+  <b>range(n)</b> generiše brojeve od 0 do n-1.<br />
+  <b>range(a, b)</b> generiše brojeve od a do b-1.<br />
+  <b>range(a, b, korak)</b> generiše brojeve od a do b-1, uz zadati korak.
+</div>
+
+<p style="text-align: justify">
+  Petlja <b>for</b> se u Pythonu često koristi i za direktan prolazak kroz
+  elemente kolekcije (liste, niske...), bez potrebe za brojačem.
+</p>
+
+<b>Primer 2 (Prolazak kroz karaktere niske):</b> Ispisati svaki karakter
+niske u posebnom redu.
+<xmp class="primer_ta" title="">
+ime = "Python"
+
+for karakter in ime:
+    print(karakter)
+</xmp>
+
+<h2>2. Petlja while</h2>
+<p style="text-align: justify">
+  Petlja <b>while</b> izvršava kod sve dok je zadati uslov tačan. Koristi se
+  kada unapred ne znamo tačan broj ponavljanja. Osnovni oblik izgleda
+  ovako:
+</p>
+
+<p style="margin-left: 30px">
+  <b>while</b> uslov<b>:</b><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;naredba
+</p>
+
+<b>Primer 3 (Petlja while):</b> Pomoću promenljive brojac, koja se u
+svakom krugu petlje uvećava za 1, ispisati koji je trenutni krug petlje (ukupno pet
+krugova).
+<xmp class="primer_ta" title="">
+brojac = 0
+
+while brojac < 5:
+    print("Krug broj", brojac)
+    brojac += 1
+</xmp>
+
+<p style="text-align: justify">
+  Uslov <b>while</b> petlje se iznova proverava pre svakog narednog kruga,
+  pa se mora obavezno voditi računa da se unutar njenog tela na neki način
+  menja promenljiva od koje uslov zavisi (u primeru iznad:
+  <b>brojac += 1</b>). Da te linije nema, promenljiva <b>brojac</b> bi u
+  svakom krugu ostala <b>0</b>, uslov <b>brojac &lt; 5</b> bi zauvek bio
+  tačan, i petlja se nikada ne bi završila, odnosno program bi se „zaglavio“ i
+  beskonačno ispisivao <b>Krug broj 0</b>. Ovakva greška naziva se
+  <b>beskonačna petlja</b>, a program iz nje mora ručno da se prekine
+  (npr. kombinacijom tastera <b>Ctrl+C</b> u terminalu).
+</p>
+
+<div class="napomena">
+  Za razliku od nekih drugih jezika (npr. C, Java), Python nema posebnu
+  <b>do-while</b> petlju, kod koje bi se telo petlje izvršilo bar jednom
+  pre prve provere uslova. Isti efekat se u Pythonu postiže petljom
+  <b>while True</b> (uslov koji je uvek tačan), iz koje se izlazi naredbom
+  <b>break</b>, čim uslov za kraj bude ispunjen. Primer sledi na kraju
+  ove lekcije, nakon što <b>break</b> bude objašnjen.
+</div>
+
+<h2>3. Ugnježdene petlje</h2>
+<p style="text-align: justify">
+  Petlja može sadržati drugu petlju unutar sebe. Takve petlje se nazivaju
+  <b>ugnježdene petlje</b>. Za svaki krug spoljašnje petlje, unutrašnja
+  petlja se u potpunosti izvrši, od početka do kraja.
+</p>
+
+<b>Primer 4 (Ugnježdene petlje):</b> Pomoću ugnježdenih for petlji
+ispisati malu tablicu množenja, za brojeve od 1 do 3.
+<xmp class="primer_ta" title="">
+for i in range(1, 4):
+    for j in range(1, 4):
+        print(i, "x", j, "=", i * j)
+</xmp>
+
+<div class="napomena">
+  Unutrašnja petlja mora biti dodatno uvučena u odnosu na spoljašnju, jer
+  uvlačenje određuje kom bloku koda ona pripada. Za svaku vrednost
+  promenljive <b>i</b> (1, 2, 3) unutrašnja petlja prođe kroz sve vrednosti
+  promenljive <b>j</b> (1, 2, 3), pa se ukupno izvrši 3 &times; 3 = 9
+  krugova.
+</div>
+
+<h2>4. Naredbe break i continue</h2>
+<p style="text-align: justify">
+  Naredba <b>break</b> odmah prekida izvršavanje petlje, čak i ako uslov za
+  njen kraj još nije ispunjen - izvršavanje programa nastavlja se od prve
+  naredbe koja se nalazi posle petlje. Naredba <b>continue</b> ne prekida
+  celu petlju, već samo preskače ostatak koda u tekućoj iteraciji i
+  nastavlja sa sledećom.
+</p>
+
+<b>Primer 5 (break i continue):</b> Ispisati neparne brojeve od 1 do 10,
+uz prekid petlje čim broj dostigne 6.
+<xmp class="primer_ta" title="">
+for broj in range(1, 11):
+    if broj == 6:
+        break            # kada se stigne do toga da broj ima vrednost 6, petlja se odmah prekida i prelazi se na red za ispis "Petlja je završena."
+    if broj % 2 == 0:
+        continue         # preskače se samo ispis ovog broja, petlja ide dalje
+    print(broj)
+
+print("Petlja je završena.")
+
+# ispisuje: 1, 3, 5, a zatim Petlja je završena.
+</xmp>
+
+<div class="napomena">
+  Kada se izvrši <b>break</b> (u primeru iznad, u trenutku kada
+  <b>broj</b> postane 6), izvršavanje petlje se trenutno prekida i program
+  nastavlja od prve naredbe posle petlje, što je ovde
+  <b>print("Petlja je završena.")</b>. Brojevi od 6 do 10 se uopšte ne
+  obrađuju. Naredbom <b>continue</b> se, s druge strane, ne izlazi iz
+  petlje, za svaki parni broj (2, 4...) samo se preskače naredba
+  <b>print(broj)</b>, a petlja normalno nastavlja sa sledećim brojem.
+</div>
+
+<b>Primer 6 (while True):</b> Ispisati
+brojeve počev od 1, uz proveru uslova za kraj tek nakon ispisa.
+<xmp class="primer_ta" title="">
+broj = 1
+
+while True:
+    print(broj)
+    if broj >= 5:
+        break
+    broj += 1
+
+# ispisuje: 1, 2, 3, 4, 5
+</xmp>
+
+<div class="napomena">
+  Naredba <b>if broj >= 5: break</b> se nalazi na kraju tela petlje i
+  predstavlja uslov za izlazak. Petlja se time ponaša kao <b>do-while</b>,
+  telo (ovde <b>print(broj)</b>) se prvo izvrši, a tek posle toga se
+  proverava da li treba stati.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Pomoću <b>for</b> petlje ispisati brojeve od 1 do 20.<br /><br />
+  <b>2.</b> Pomoću <b>while</b> petlje ispisati brojeve od 10 do 1, u
+  opadajućem redosledu (odbrojavanje unazad).<br />
+  <i>Uputstvo: promenljivoj
+  brojač postaviti početnu vrednost 10, a zatim je u svakom krugu petlje
+  umanjivati za 1 (operator <b>-=</b>), sve dok ne postane manja od
+  1.</i><br /><br />
+  <b>3.</b> Pomoću ugnježdenih <b>for</b> petlji ispisati tablicu množenja
+  za brojeve od 1 do 5, u redovima oblika <b>i x j = rezultat</b>.<br /><br />
+  <b>4.</b> Pomoću petlje i naredbe <b>break</b> pronaći i ispisati prvi
+  broj veći od 100 koji je deljiv i sa 3 i sa 7.
+</div>

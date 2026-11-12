@@ -1,0 +1,126 @@
+<h1>Čitanje Word dokumenata i brojanje karaktera</h1>
+
+<p style="text-align: justify">
+  Za razliku od običnih tekstualnih (.txt) fajlova, Word dokumenti (.docx)
+  imaju znatno složeniju unutrašnju strukturu. Zbog
+  toga se za rad sa njima ne koristi obična funkcija <b>open()</b>, već
+  specijalizovana biblioteka <b>python-docx</b>.
+</p>
+
+<p style="text-align: justify">
+  Svi primeri u ovoj (i narednoj) lekciji rade nad istim dokumentom pod
+  nazivom <b>izvestaj.docx</b>. Dokument se može preuzeti već gotov
+  (<a href="courses/python/files/izvestaj.docx" target="_blank">izvestaj.docx</a>),
+  ili ručno napraviti u Word-u pod istim nazivom fajla, popunjen sa par
+  proizvoljnih naslova (stil Heading 1) i pasusa teksta (stil Normal).
+</p>
+
+<div class="napomena">
+  Svaki pasus u Word dokumentu ima dodeljen <b>stil</b>. Ukoliko stil nije
+  eksplicitno određen, Word mu automatski dodeljuje podrazumevani stil
+  (obično „Normal“). Stil predstavlja imenovani skup formatiranja (font,
+  veličina, boja teksta i slično) koji određuje izgled pasusa; o
+  stilovima će detaljnije biti reči u narednoj lekciji.<br /><br />
+  Ukoliko se za izvestaj.docx koristi ručno napravljen dokument sa proizvoljnim sadržajem, u dokument treba
+  uneti reč „2023“ na nekom mestu jer se u jednom od primera u narednoj lekciji zamenjuje reč „2023“ rečju „2024“
+  unutar dokumenta.
+</div>
+
+<h2>1. Instalacija biblioteke</h2>
+<p style="text-align: justify">
+  Biblioteka se, kao i svaki drugi spoljni paket, instalira pomoću pip-a iz
+  komandne linije:
+</p>
+
+<xmp class="primer_ta" title="">
+pip install python-docx
+</xmp>
+
+<div class="napomena">
+  Naziv paketa za instalaciju je <b>python-docx</b> (sa crticom), dok se u
+  kodu, prilikom uvoženja, koristi naziv modula <b>docx</b> (bez crtice i
+  bez „python“).
+</div>
+
+<h2>2. Otvaranje postojećeg Word dokumenta</h2>
+<p style="text-align: justify">
+  Dokument se otvara pomoću funkcije <b>Document()</b>, kojoj se prosleđuje
+  putanja do .docx fajla. Kao rezultat dobija se objekat koji predstavlja
+  ceo dokument, čiji se tekst nalazi organizovan u <b>paragrafima</b>
+  (<b>paragraphs</b>).
+</p>
+
+<b>Primer 1 (Otvaranje dokumenta i ispis svih paragrafa):</b> Otvoriti
+Word dokument i ispisati tekst svakog paragrafa.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+
+for paragraf in dokument.paragraphs:
+    print(paragraf.text)
+</xmp>
+
+<p style="text-align: justify">
+  Svaki paragraf ima osobinu <b>text</b>, koja sadrži čist tekst tog
+  paragrafa (bez formatiranja).
+</p>
+
+<h2>3. Brojanje karaktera u dokumentu</h2>
+<p style="text-align: justify">
+  Kada znamo kako da dobijemo tekst svakog paragrafa, brojanje karaktera se
+  svodi na primenu funkcije <b>len()</b> (kao kod obične niske, opisano u
+  lekciji o radu sa niskama) na sadržaj svakog paragrafa, uz sabiranje
+  rezultata.
+</p>
+
+<b>Primer 2 (Ukupan broj karaktera u dokumentu):</b> Izračunati i
+ispisati ukupan broj karaktera u celom dokumentu.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+
+ukupno_karaktera = 0
+for paragraf in dokument.paragraphs:
+    ukupno_karaktera += len(paragraf.text)
+
+print("Ukupan broj karaktera u dokumentu:", ukupno_karaktera)
+</xmp>
+
+<p style="text-align: justify">
+  Na sličan način moguće je izbrojati i reči u dokumentu, korišćenjem
+  metode <b>split()</b>, koja tekst deli na reči prema razmacima.
+</p>
+
+<b>Primer 3 (Broj reči po paragrafima):</b> Za svaki paragraf dokumenta
+ispisati njegov redni broj i broj reči koje sadrži.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+
+for i, paragraf in enumerate(dokument.paragraphs, start=1):
+    broj_reci = len(paragraf.text.split())
+    print(f"Paragraf {i}: {broj_reci} reči")
+</xmp>
+
+<div class="napomena">
+  Funkcija <b>enumerate(kolekcija, start=1)</b> prolazi kroz elemente
+  kolekcije i uz svaki element vraća i njegov redni broj, počevši od
+  zadate vrednosti (u ovom slučaju od 1, umesto podrazumevane 0).
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Kreirati proizvoljan Word dokument sa nekoliko pasusa teksta.
+  Napisati Python program koji učitava taj dokument i ispisuje: ukupan broj
+  paragrafa, ukupan broj reči i ukupan broj karaktera u celom
+  dokumentu.<br /><br />
+  <b>2.</b> Napisati program koji iz dokumenta <b>izvestaj.docx</b> ispisuje
+  samo one paragrafe koji sadrže više od 10 reči, uz redni broj svakog
+  takvog paragrafa.<br /><br />
+  <b>3.</b> Napisati program koji za svaki paragraf dokumenta
+  <b>izvestaj.docx</b> ispisuje njegov redni broj, broj karaktera i broj
+  reči, a na kraju ispisuje prosečan broj reči po paragrafu.
+</div>

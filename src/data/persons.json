@@ -221,5 +221,11 @@
     "course": "XML",
     "url": "assets/images/team/jelena_ilic.jpg",
     "mainPosition": false
+  },
+  {
+    "name": "Jovana Rađenović",
+    "course": "Python",
+    "url": "assets/images/team/jovana_radjenovic.jpg",
+    "mainPosition": false
   }
 ]

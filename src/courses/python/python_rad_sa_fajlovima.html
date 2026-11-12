@@ -1,0 +1,167 @@
+<h1>Rad sa tekstualnim fajlovima</h1>
+
+<p style="text-align: justify">
+  Python ima ugrađenu podršku za rad sa fajlovima na disku, uključujući njihovo
+  otvaranje, čitanje, pisanje i zatvaranje.
+</p>
+
+<h2>1. Otvaranje fajla</h2>
+<p style="text-align: justify">
+  Za otvaranje bilo kog tekstualnog fajla koristi se ugrađena funkcija <b>open()</b>, kojoj se
+  prosleđuje putanja do fajla i <b>režim rada</b> (mod).
+</p>
+
+<p style="text-align: justify">
+  Režim rada određuje da li će se fajl čitati ili će se u njega upisivati.
+  Najčešće korišćeni režimi su:
+</p>
+
+<ul>
+  <li>
+    <b>"r"</b> (read) - fajl se otvara samo za čitanje. Fajl mora
+    postojati, inače dolazi do greške. Ovo je podrazumevani režim, koji se
+    koristi ako se režim ne navede.
+  </li>
+  <li>
+    <b>"w"</b> (write) - fajl se otvara za pisanje. Ako fajl ne postoji,
+    kreira se novi. Ako fajl postoji, <b>ceo njegov dosadašnji sadržaj se
+    briše</b> i upisuje se novi.
+  </li>
+  <li>
+    <b>"a"</b> (append) - fajl se otvara za dodavanje. Novi sadržaj se
+    upisuje na kraj fajla, a postojeći sadržaj ostaje sačuvan. Ako fajl ne
+    postoji, kreira se novi.
+  </li>
+  <li>
+    <b>"x"</b> - kreira se novi fajl i otvara za pisanje. Ako fajl sa tim
+    nazivom već postoji, dolazi do greške, čime se sprečava slučajno
+    brisanje postojećeg fajla.
+  </li>
+</ul>
+
+<p style="text-align: justify">
+  Preporučeni način za rad sa fajlovima je korišćenje naredbe
+  <b>with</b>, koja automatski zatvara fajl nakon završetka bloka koda, čak
+  i ako u međuvremenu dođe do greške.
+</p>
+
+<b>Primer 1 (Čitanje celog sadržaja fajla):</b> Otvoriti tekstualni fajl
+i ispisati ceo njegov sadržaj.
+<xmp class="primer_ta" title="">
+with open("beleske.txt", "r", encoding="utf-8") as fajl:
+    sadrzaj = fajl.read()
+    print(sadrzaj)
+</xmp>
+
+<p style="text-align: justify">
+  Funkcija <b>open()</b> otvara fajl i vraća objekat preko kog se sa tim
+  fajlom radi. Deo <b>as fajl</b> tom objektu daje naziv <b>fajl</b>, slično
+  kao dodela vrednosti promenljivoj. Naziv se bira proizvoljno (mogao je
+  biti i npr. <b>f</b> ili <b>beleske</b>). Preko tog naziva se zatim, u
+  uvučenom bloku ispod naredbe <b>with</b>, poziva metoda <b>read()</b>,
+  koja čita ceo sadržaj fajla i vraća ga kao jednu nisku. Kada se blok
+  završi, fajl se automatski zatvara.
+</p>
+
+<div class="napomena">
+  Parametar <b>encoding="utf-8"</b> obezbeđuje da se iz fajla ispravno pročitaju
+  slova sa našim dijakritičkim znacima (č, ć, ž, š, đ).
+</div>
+
+<h2>2. Čitanje fajla po linijama</h2>
+<p style="text-align: justify">
+  Pored čitanja celog sadržaja odjednom, fajl se može čitati i liniju po
+  liniju. Razmatramo tri načina za čitanje: <b>for</b> petlja, metoda
+  <b>readlines()</b> i metoda <b>readline()</b>.
+</p>
+
+<p style="text-align: justify">
+  Najčešće korišćen način je <b>for</b> petlja, koja u svakom prolazu
+  čita po jednu liniju fajla. Pošto se ne učitava ceo fajl u memoriju
+  odjednom, ovaj način je pogodan i za velike fajlove.
+</p>
+
+<xmp class="primer_ta" title="">
+with open("beleske.txt", "r", encoding="utf-8") as fajl:
+    for linija in fajl:
+        print(linija.strip())   # strip() uklanja beline (razmake, tabove, novi red) sa početka i kraja niske
+</xmp>
+
+<p style="text-align: justify">
+  Metoda <b>readlines()</b> učitava sve linije fajla odjednom, u obliku
+  liste niski. Koristi se kada je potrebna cela lista linija, na primer
+  za pristup određenoj liniji preko indeksa.
+</p>
+
+<xmp class="primer_ta" title="">
+with open("beleske.txt", "r", encoding="utf-8") as fajl:
+    sve_linije = fajl.readlines()
+    print(sve_linije)          # npr. ['Prvi red.\n', 'Drugi red.\n']
+</xmp>
+
+<p style="text-align: justify">
+  Metoda <b>readline()</b> učitava samo jednu, sledeću liniju fajla.
+  Koristi se najređe, uglavnom kada treba pročitati samo prvu ili nekoliko
+  početnih linija (npr. naslov), pre obrade ostatka fajla.
+</p>
+
+<xmp class="primer_ta" title="">
+with open("beleske.txt", "r", encoding="utf-8") as fajl:
+    prva_linija = fajl.readline()
+    print(prva_linija)         # ispisuje samo prvi red fajla
+</xmp>
+
+<h2>3. Pisanje u fajl</h2>
+<p style="text-align: justify">
+  Za upis teksta u fajl koristi se metoda <b>write()</b>, pri čemu fajl
+  mora biti otvoren u režimu za pisanje (<b>"w"</b>) ili dodavanje
+  (<b>"a"</b>). Metoda <b>write()</b> ne prelazi automatski u novi red,
+  pa se na kraj svakog reda dodaje oznaka za novi red <b>\n</b>.
+</p>
+
+<b>Primer 2 (Upisivanje teksta u fajl):</b> Kreirati novi fajl i upisati
+u njega dva reda teksta.
+<xmp class="primer_ta" title="">
+with open("izvestaj.txt", "w", encoding="utf-8") as fajl:
+    fajl.write("Prvi red teksta.\n")
+    fajl.write("Drugi red teksta.\n")
+</xmp>
+
+<h2>4. Fajl koji ne postoji</h2>
+<p style="text-align: justify">
+  Ukoliko se pokuša otvaranje fajla u režimu <b>"r"</b>, a fajl na datoj
+  putanji ne postoji, dolazi do izuzetka <b>FileNotFoundError</b>. Kao što
+  je opisano u prethodnoj lekciji, taj slučaj treba obraditi pomoću bloka
+  <b>try/except</b>, umesto da program prekine rad sa greškom.
+</p>
+
+<b>Primer 3 (Bezbedno otvaranje fajla):</b> Pokušati da se otvori fajl
+koji ne postoji, uz obradu izuzetka umesto rušenja programa.
+<xmp class="primer_ta" title="">
+try:
+    with open("beleske.txt", "r", encoding="utf-8") as fajl:
+        print(fajl.read())
+except FileNotFoundError:
+    print("Fajl 'beleske.txt' ne postoji.")
+</xmp>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> U istom folderu u kom se nalazi program kreirati tekstualni fajl
+  <b>beleske.txt</b> sa nekoliko rečenica. Neka svaka rečenica bude u posebnom redu. Napisati
+  program koji pomoću metode <b>read()</b> čita ceo sadržaj fajla i ispisuje
+  ga. Obraditi slučaj kada
+  fajl ne postoji.<br /><br />
+  <b>2.</b> Napisati program koji fajl <b>beleske.txt</b> čita liniju po
+  liniju pomoću <b>for</b> petlje i ispisuje svaku liniju sa rednim brojem
+  ispred nje (npr. „1. Prvi red.“). Za redni broj koristiti promenljivu
+  brojač.<br /><br />
+  <b>3.</b> Napisati program koji pomoću metode <b>readlines()</b> učitava
+  sve linije fajla <b>beleske.txt</b>, a zatim ispisuje ukupan broj linija.<br /><br />
+  <b>4.</b> Napisati program koji otvara fajl <b>spisak.txt</b> u režimu
+  <b>"w"</b> i upisuje u njega tri imena, svako u posebnom redu. Zatim
+  ponovo otvoriti isti fajl, ovog puta u režimu <b>"a"</b>, i dodati još
+  jedno ime. Na kraju pročitati fajl i ispisati njegov sadržaj. Pokrenuti
+  program dva puta i objasniti zašto se u fajlu i dalje nalaze samo četiri
+  imena.
+</div>

@@ -1,0 +1,170 @@
+<h1>Moduli, paketi i pip</h1>
+
+<p style="text-align: justify">
+  Jedna od najvećih prednosti Pythona je ogroman broj gotovih
+  <b>modula</b> i <b>paketa</b> koji rešavaju
+  najrazličitije probleme, od rada sa datumima, preko slanja mejlova, do
+  mašinskog učenja. Zahvaljujući njima nije potrebno sve pisati „od nule“.
+  Pre nego što počnemo da ih koristimo, razjasnićemo šta tačno znači svaki
+  od ovih pojmova.
+</p>
+
+<h2>1. Modul, paket i standardna biblioteka</h2>
+
+<p style="text-align: justify">
+  <b>Modul</b> je datoteka sa ekstenzijom .py koja sadrži Python kod:
+  funkcije, promenljive i klase. Naziv modula je naziv datoteke bez
+  ekstenzije, pa se, na primer, kod iz datoteke <b>racun.py</b> uvozi kao
+  modul <b>racun</b>.
+</p>
+
+<p style="text-align: justify">
+  <b>Paket</b> je folder koji objedinjuje više modula (a može sadržati i
+  druge pakete, tzv. podpakete). Preporučuje se da takav folder sadrži
+  datoteku <b>__init__.py</b>, po kojoj Python prepoznaje da je u pitanju
+  paket. Paketi služe da se veći broj srodnih modula organizuje na jednom
+  mestu, slično kao što se datoteke na računaru organizuju u foldere.
+</p>
+
+<xmp class="primer_ta" title="">
+geometrija/            <- paket
+    __init__.py
+    krug.py            <- modul
+    kvadrat.py         <- modul
+</xmp>
+
+<p style="text-align: justify">
+  Moduli iz paketa se uvoze navođenjem naziva paketa i modula, razdvojenih
+  tačkom, na primer <b>import geometrija.krug</b>.
+</p>
+
+<p style="text-align: justify">
+  <b>Standardna biblioteka</b> (engl. <i>standard library</i>) je skup
+  modula i paketa koji se instaliraju zajedno sa samim Pythonom, pa su
+  odmah dostupni i ne moraju se posebno preuzimati. Ostali moduli i paketi
+  se nazivaju <b>spoljni (eksterni)</b> i moraju se naknadno instalirati.
+</p>
+
+<h2>2. Korišćenje modula iz standardne biblioteke</h2>
+<p style="text-align: justify">
+  Moduli i paketi (kako iz standardne biblioteke, tako i spoljni) se u
+  program uključuju pomoću ključne reči <b>import</b>.
+</p>
+
+<b>Primer 1 (Korišćenje modula iz standardne biblioteke):</b> Pomoću
+modula math izračunati kvadratni koren broja i ispisati vrednost broja pi.
+<xmp class="primer_ta" title="">
+import math
+
+print(math.sqrt(64))     # 8.0
+print(math.pi)           # 3.141592653589793
+</xmp>
+
+<p style="text-align: justify">
+  Ukoliko je iz modula potrebna samo jedna funkcija, može se uvesti
+  isključivo ona, pomoću <b>from ... import ...</b>.
+</p>
+
+<xmp class="primer_ta" title="">
+from math import sqrt
+
+print(sqrt(81))    # 9.0
+</xmp>
+
+<h2>3. Instaliranje spoljnih paketa pomoću pip-a</h2>
+<p style="text-align: justify">
+  Pored standardne biblioteke, postoji ogroman broj <b>spoljnih
+  paketa</b> koje je razvila zajednica programera. Oni se ne instaliraju
+  automatski sa Pythonom, već se preuzimaju sa zvaničnog repozitorijuma
+  <b>PyPI</b> (Python Package Index) pomoću alata <b>pip</b>, koji se
+  pokreće iz komandne linije, odnosno iz integrisanog terminala, ukoliko
+  se koristi Visual Studio Code (opisano u lekciji o prvom programu).
+</p>
+
+<xmp class="primer_ta" title="">
+pip install naziv_paketa
+</xmp>
+
+<p style="text-align: justify">
+  Na primer, paket <b>requests</b> olakšava slanje HTTP zahteva ka veb
+  servisima, a instalira se komandom:
+</p>
+
+<xmp class="primer_ta" title="">
+pip install requests
+</xmp>
+
+<p style="text-align: justify">
+  Nakon instalacije, paket se u kodu koristi na isti način kao i moduli iz
+  standardne biblioteke, pomoću naredbe <b>import</b>.
+</p>
+
+<xmp class="primer_ta" title="">
+import requests
+</xmp>
+
+<p style="text-align: justify">
+  Komanda <b>pip install</b> se za jedan paket izvršava <b>samo jednom</b>.
+  Paket nakon toga ostaje instaliran, pa ga nije potrebno ponovo instalirati
+  pre svakog pokretanja programa, niti za svaki novi fajl. Naredba
+  <b>import</b> se, s druge strane, piše na početku svakog fajla u kom se
+  paket koristi. Pri tome je važno
+  znati <b>gde</b> se paket instalira: pip ga uvek smešta u ono Python
+  okruženje koje je u tom trenutku aktivno u terminalu.
+</p>
+
+<ul>
+  <li>
+    Ukoliko je aktivno <b>virtuelno okruženje</b> projekta (pored putanje u
+    terminalu se vidi npr. <span class="primer_text">(.venv)</span>), paket
+    se instalira samo u to okruženje. Tada je dostupan svim programima tog
+    projekta, ali ne i drugim projektima - u svakom novom virtuelnom
+    okruženju potrebno ga je instalirati ponovo.
+  </li>
+  <li>
+    Ukoliko nijedno virtuelno okruženje nije aktivno, paket se instalira u
+    samu instalaciju Pythona na računaru i dostupan je svim programima koji
+    se pokreću bez virtuelnog okruženja.
+  </li>
+</ul>
+
+<p style="text-align: justify">
+  Ukoliko se pri pokretanju programa javi greška
+  <b>ModuleNotFoundError</b> za paket koji je već instaliran, najčešći
+  uzrok je to što je paket instaliran u jedno okruženje, a program se
+  pokreće iz drugog. Tada treba aktivirati odgovarajuće okruženje i u njemu
+  ponoviti instalaciju.
+</p>
+
+<div class="napomena">
+  Spisak svih trenutno instaliranih paketa se dobija komandom
+  <b>pip list</b>, a određeni paket se uklanja komandom
+  <b>pip uninstall naziv_paketa</b>.
+</div>
+
+<p style="text-align: justify">
+  U narednim lekcijama ćemo pomoću pip-a instalirati paket
+  <span class="primer_text">python-docx</span>, koji omogućava da
+  Python program čita i menja sadržaj Word (.docx) dokumenata.
+</p>
+
+<div class="napomena">
+  Naziv pod kojim se paket instalira pomoću pip-a ne mora biti isti kao
+  naziv pod kojim se uvozi u kodu. Tako se, na primer, paket za rad sa Word
+  dokumentima instalira komandom <b>pip install python-docx</b>, a u kodu
+  se uvozi kao <b>import docx</b>. Tačan naziv za uvoz se uvek navodi u
+  dokumentaciji paketa.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> U komandnoj liniji instalirati paket <b>requests</b> pomoću
+  pip-a, a zatim pomoću komande <b>pip list</b> proveriti da li se paket
+  nalazi na spisku instaliranih paketa.<br /><br />
+  <b>2.</b> Pomoću modula <b>random</b> iz standardne biblioteke generisati
+  i ispisati pet slučajnih celih brojeva između 1 i 100.<br /><br />
+  <b>3.</b> Pomoću modula <b>datetime</b> iz standardne biblioteke ispisati
+  današnji datum, a zatim pomoću modula <b>math</b> za zadati decimalni broj
+  ispisati njegovu vrednost zaokruženu nadole (<b>math.floor</b>) i nagore
+  (<b>math.ceil</b>).
+</div>

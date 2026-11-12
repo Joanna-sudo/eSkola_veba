@@ -1,0 +1,183 @@
+<h1>Liste</h1>
+
+<p style="text-align: justify">
+  Lista (tip <b>list</b>) je uređena kolekcija podataka koja može sadržati
+  proizvoljan broj elemenata, koji ne moraju biti istog tipa.
+</p>
+
+<b>Primer 1 (Kreiranje liste):</b> Kreirati tri liste: listu brojeva,
+listu imena i listu sa mešovitim tipovima podataka.
+<xmp class="primer_ta" title="">
+brojevi = [10, 25, 3, 47, 8]
+imena = ["Ana", "Marko", "Jovana"]
+mesano = ["Python", 3.9, True]
+</xmp>
+
+<h2>1. Pristup elementima</h2>
+<p style="text-align: justify">
+  Elementima liste se pristupa preko indeksa, na isti način kao kod niski.
+  Indeksiranje počinje od nule, a negativni indeksi broje elemente od kraja
+  liste.
+</p>
+
+<b>Primer 2 (Indeksiranje liste):</b> Ispisati prvi element, poslednji
+element i dužinu liste imena.
+<xmp class="primer_ta" title="">
+imena = ["Ana", "Marko", "Jovana"]
+
+print(imena[0])     # Ana
+print(imena[-1])    # Jovana
+print(len(imena))   # 3
+</xmp>
+
+<h2>2. Dodavanje i uklanjanje elemenata</h2>
+<p style="text-align: justify">
+  Za izmenu sadržaja liste na raspolaganju su sledeće metode:
+</p>
+
+<ul>
+  <li><b>append(vrednost)</b> - dodaje element na kraj liste</li>
+  <li>
+    <b>insert(indeks, vrednost)</b> - ubacuje element na tačno određenu
+    poziciju
+  </li>
+  <li><b>remove(vrednost)</b> - uklanja prvu pojavu date vrednosti</li>
+  <li>
+    <b>pop(indeks)</b> - uklanja element sa datog indeksa i vraća njegovu vrednost (koja se onda može sačuvati u
+    promenljivoj); ako se indeks izostavi, uklanja se i vraća poslednji
+    element. Npr. <span class="primer_text">voce.pop(0)</span> uklanja i
+    vraća prvi element liste <b>voce</b>, a
+    <span class="primer_text">voce.pop()</span> poslednji
+  </li>
+  <li><b>sort()</b> - sortira listu</li>
+  <li><b>reverse()</b> - obrće redosled elemenata</li>
+</ul>
+
+<b>Primer 3 (Izmena liste):</b> U listu voća dodati novi element na kraj
+i na poziciju 1, a zatim jedan element ukloniti.
+<xmp class="primer_ta" title="">
+voce = ["jabuka", "kruška"]
+
+voce.append("banana")
+voce.insert(1, "šljiva")
+print(voce)          # ['jabuka', 'šljiva', 'kruška', 'banana']
+
+voce.remove("kruška")
+print(voce)          # ['jabuka', 'šljiva', 'banana']
+</xmp>
+
+<p style="text-align: justify">
+  Kada se lista dodeli drugoj promenljivoj, ne pravi se kopija, obe
+  promenljive tada pokazuju na potpuno istu listu u memoriji, pa je izmena
+  preko jedne vidljiva i preko druge. Da bi se napravila prava, nezavisna
+  kopija liste, koristi se metoda <b>copy()</b> ili oznaka isecanja
+  <b>[:]</b>.
+</p>
+
+<b>Primer 4 (Dodela liste i prava kopija):</b> Listu dodeliti drugoj
+promenljivoj i izmeniti je, a zatim napraviti pravu, nezavisnu kopiju
+liste i izmeniti nju, radi poređenja ponašanja.
+<xmp class="primer_ta" title="">
+a = [1, 2, 3]
+b = a
+
+b.append(4)
+print(a)   # [1, 2, 3, 4] - i lista a je izmenjena, iako je menjana b
+
+c = a.copy()   # prava, nezavisna kopija liste a
+c.append(5)
+print(a)   # [1, 2, 3, 4] - lista a ostaje nepromenjena
+print(c)   # [1, 2, 3, 4, 5]
+</xmp>
+
+<h2>3. Prolazak kroz listu</h2>
+<p style="text-align: justify">
+  Kroz elemente liste se najčešće prolazi pomoću <b>for</b> petlje.
+</p>
+
+<b>Primer 5 (Prolazak kroz listu):</b> Pomoću petlje izračunati prosečnu
+ocenu iz liste ocena.
+<xmp class="primer_ta" title="">
+ocene = [5, 4, 5, 3, 4]
+zbir = 0
+
+for ocena in ocene:
+    zbir += ocena
+
+prosek = zbir / len(ocene)
+print("Prosek je:", prosek)
+</xmp>
+
+<div class="napomena">
+  Za sabiranje svih elemenata liste postoji i ugrađena funkcija
+  <b>sum()</b>, pa se prethodni primer može skratiti na
+  <b>prosek = sum(ocene) / len(ocene)</b>.
+</div>
+
+<h2>4. Kreiranje liste pomoću list comprehension-a</h2>
+<p style="text-align: justify">
+  <b>List comprehension</b> je skraćeni zapis kojim se, u jednoj liniji
+  koda, kreira nova lista na osnovu postojeće kolekcije, umesto pisanja
+  cele <b>for</b> petlje sa <b>append()</b> pozivom.
+</p>
+
+<b>Primer 6 (Kvadrati brojeva pomoću list comprehension-a):</b> Pomoću
+list comprehension-a napraviti listu kvadrata zadatih brojeva.
+<xmp class="primer_ta" title="">
+brojevi = [1, 2, 3, 4, 5]
+
+kvadrati = [broj ** 2 for broj in brojevi]
+print(kvadrati)    # [1, 4, 9, 16, 25]
+</xmp>
+
+<p style="text-align: justify">
+  List comprehension-u se, na kraju, može dodati i uslov <b>if</b>, kojim
+  se biraju samo elementi koji ga ispunjavaju.
+</p>
+
+<b>Primer 7 (List comprehension sa uslovom):</b> Pomoću list
+comprehension-a sa uslovom izdvojiti samo parne brojeve iz liste.
+<xmp class="primer_ta" title="">
+brojevi = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+parni = [broj for broj in brojevi if broj % 2 == 0]
+print(parni)    # [2, 4, 6, 8, 10]
+</xmp>
+
+<div class="napomena">
+  Prethodni primer je kraći zapis sledećeg koda:<br />
+  <b>parni = []</b><br />
+  <b>for broj in brojevi:</b><br />
+  &nbsp;&nbsp;<b>if broj % 2 == 0:</b><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;<b>parni.append(broj)</b>
+</div>
+
+<h2>5. Sortiranje po ključu</h2>
+<p style="text-align: justify">
+  Funkcija <b>sorted()</b> vraća novu, sortiranu listu (za razliku od
+  metode <b>sort()</b>, koja sortira postojeću listu „na mestu“). Opcioni
+  parametar <b>key</b> određuje na osnovu čega se sortira, na primer,
+  <b>len</b> sortira niske po dužini, umesto po abecednom redosledu.
+</p>
+
+<b>Primer 8 (Sortiranje po dužini reči):</b> Listu imena sortirati po
+abecedi, a zatim po dužini reči.
+<xmp class="primer_ta" title="">
+imena = ["Jovana", "Ana", "Katarina", "Ivo"]
+
+print(sorted(imena))            # ['Ana', 'Ivo', 'Jovana', 'Katarina']
+print(sorted(imena, key=len))   # ['Ana', 'Ivo', 'Jovana', 'Katarina']
+</xmp>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napraviti listu sa nazivima pet gradova, dodati još jedan grad na
+  kraj liste i ispisati celu listu.<br /><br />
+  <b>2.</b> Iz iste liste obrisati prvi grad, a zatim ispisati preostalu
+  listu u sortiranom (abecednom) redosledu.<br /><br />
+  <b>3.</b> Data je lista od šest celih brojeva. Pomoću petlje prebrojati
+  koliko elemenata liste je pozitivno, a koliko negativno, i ispisati oba
+  broja.<br /><br />
+  <b>4.</b> Data je lista celih brojeva. Pomoću list comprehension-a
+  napraviti i ispisati novu listu u kojoj je svaki broj uvećan za 10.
+</div>

@@ -1,0 +1,172 @@
+<h1>Rad sa niskama (stringovima)</h1>
+
+<p style="text-align: justify">
+  Niska (string, tip <b>str</b>) predstavlja niz karaktera i koristi se za
+  čuvanje teksta. U Pythonu može da se zapiše pod jednostrukim ili dvostrukim
+  navodnicima, bitno je samo da se isti tip
+  navodnika koristi na početku i na kraju.
+</p>
+
+<b>Primer 1 (Kreiranje niski):</b> Kreirati dve niske, jednu pod
+jednostrukim, drugu pod dvostrukim navodnicima.
+<xmp class="primer_ta" title="">
+ime = 'Petar'
+poruka = "Zdravo, svete!"
+</xmp>
+
+<h2>1. Dužina niske i pristup karakterima</h2>
+<p style="text-align: justify">
+  Dužina niske (broj karaktera koje sadrži) dobija se pomoću funkcije
+  <b>len()</b>. Pojedinačnom karakteru pristupa se preko <b>indeksa</b> u
+  uglastim zagradama, pri čemu indeksiranje počinje <b>od nule</b>.
+</p>
+
+<b>Primer 2 (Dužina i indeksiranje):</b> Ispisati dužinu niske, njen prvi
+i poslednji karakter.
+<xmp class="primer_ta" title="">
+tekst = "Python"
+
+print(len(tekst))      # 6 - broj karaktera
+print(tekst[0])        # P - prvi karakter
+print(tekst[-1])       # n - poslednji karakter
+</xmp>
+
+<h2>2. Isecanje niske (slicing)</h2>
+<p style="text-align: justify">
+  Deo niske se izdvaja pomoću oznake <b>[početak:kraj]</b>, pri čemu je
+  početni indeks uključen, a krajnji nije. Ako se niska iseca sve do njenog
+  kraja, indeks kraja se ne mora navesti, dovoljno je napisati
+  <b>[početak:]</b>. Slično, ako isecanje kreće od početka niske, može se
+  izostaviti početni indeks: <b>[:kraj]</b>.
+</p>
+
+<b>Primer 3 (Isecanje niske):</b> Isecanjem izdvojiti prvi i drugi deo
+niske.
+<xmp class="primer_ta" title="">
+tekst = "Programiranje"   # niska ima 13 karaktera (indeksi od 0 do 12)
+
+print(tekst[0:7])     # Program
+print(tekst[:7])     # Program - isti rezultat, bez navođenja indeksa početka
+
+print(tekst[7:13])    # iranje
+print(tekst[7:])      # iranje - isti rezultat, bez navođenja indeksa kraja
+</xmp>
+
+<h2>3. Nadovezivanje i ponavljanje</h2>
+<p style="text-align: justify">
+  Dve ili više niski spajaju se u jednu operatorom <b>+</b>. Ovaj postupak
+  se naziva <b>nadovezivanje</b> ili <b>konkatenacija</b> (engl.
+  <i>concatenation</i>). Niska se operatorom <b>*</b> može i ponoviti zadati
+  broj puta.
+</p>
+<xmp class="primer_ta" title="">
+ime = "Ana"
+prezime = "Anić"
+
+puno_ime = ime + " " + prezime
+print(puno_ime)        # Ana Anić
+print("-" * 10)        # ----------
+</xmp>
+
+<p style="text-align: justify">
+  Operatorom <b>+</b> mogu se spajati samo niske. Ako je potrebno u tekst
+  umetnuti broj (npr. godine ili cenu), on se prvo mora pretvoriti u nisku
+  funkcijom <b>str()</b>, opisanom u lekciji o promenljivama.
+</p>
+
+<b>Primer (Nadovezivanje broja na tekst):</b> Sastaviti rečenicu koja
+kombinuje tekst i broj, uz pretvaranje broja u nisku.
+<xmp class="primer_ta" title="">
+ime = "Ana"
+godine = 25
+
+print("Osoba " + ime + " ima " + str(godine) + " godina.")   # Osoba Ana ima 25 godina.
+</xmp>
+
+<div class="napomena">
+  Ako se <b>str()</b> izostavi i napiše <b>"... ima " + godine</b>, program
+  se ruši uz grešku <b>TypeError</b>, jer Python ne dozvoljava sabiranje
+  niske i broja. Zbog toga je za umetanje vrednosti u tekst obično
+  praktičnije koristiti <b>f-string</b> (opisan u nastavku), kod kog ovakvo
+  pretvaranje nije potrebno.
+</div>
+
+<h2>4. Korisne metode niski</h2>
+<p style="text-align: justify">
+  <b>Metoda</b> je funkcija koja „pripada“ nekom objektu (u ovom slučaju
+  niski) i poziva se tako što se iza vrednosti ili promenljive napiše tačka,
+  pa naziv metode sa zagradama - na primer <b>ime.upper()</b>. O metodama
+  će detaljnije biti reči u lekciji o klasama i objektima; za sada je
+  dovoljno znati da niske imaju ugrađene metode koje olakšavaju najčešće
+  obrade teksta:
+</p>
+
+<ul>
+  <li><b>upper()</b> - pretvara sva slova u velika</li>
+  <li><b>lower()</b> - pretvara sva slova u mala</li>
+  <li><b>strip()</b> - uklanja razmake sa početka i kraja niske</li>
+  <li>
+    <b>replace(staro, novo)</b> - vraća novu nisku u kojoj je svaka pojava
+    teksta <b>staro</b> zamenjena tekstom <b>novo</b>; npr.
+    <span class="primer_text">"banana".replace("a", "o")</span> daje
+    <span class="primer_text">"bonono"</span>
+  </li>
+  <li>
+    <b>split(separator)</b> - seče nisku na svakom mestu gde se javlja
+    zadati <b>separator</b> (razdvajač, koji se pri tom uklanja) i vraća
+    listu dobijenih delova; npr.
+    <span class="primer_text">"a,b,c".split(",")</span> daje
+    <span class="primer_text">["a", "b", "c"]</span>
+  </li>
+  <li><b>count(podniska)</b> - broji koliko puta se data podniska pojavljuje u okviru niske</li>
+</ul>
+
+<b>Primer 4 (Metode niski):</b> Nad rečenicom primeniti metode za velika
+slova, zamenu reči, deljenje na reči po razmaku i brojanje pojavljivanja
+karaktera.
+<xmp class="primer_ta" title="">
+recenica = "Python je jednostavan i moćan jezik"
+
+print(recenica.upper())                               # PYTHON JE JEDNOSTAVAN I MOĆAN JEZIK
+print(recenica.replace("jednostavan", "zabavan"))     # Python je zabavan i moćan jezik
+print(recenica.split(" "))                            # ['Python', 'je', 'jednostavan', 'i', 'moćan', 'jezik']
+print(recenica.count("je"))                            # 3
+</xmp>
+
+<h2>5. Formatirane niske (f-stringovi)</h2>
+<p style="text-align: justify">
+  Za umetanje vrednosti promenljivih direktno u tekst, umesto sabiranja
+  niski operatorom <b>+</b>, praktičnije je koristiti <b>f-string</b>, odnosno nisku
+  koja ispred prvog navodnika ima slovo <b>f</b>, a promenljive se
+  unutar nje pišu u vitičastim zagradama <b>{ }</b>.
+</p>
+
+<b>Primer 5 (Umetanje promenljivih pomoću f-stringa):</b> Pomoću
+f-stringa ispisati rečenicu koja sadrži ime i godine osobe.
+<xmp class="primer_ta" title="">
+ime = "Petar"
+godine = 30
+
+print(f"{ime} ima {godine} godina.")   # Petar ima 30 godina.
+</xmp>
+
+<div class="napomena">
+  Unutar vitičastih zagrada f-stringa mogu se pisati i izrazi, ne samo
+  gole promenljive, na primer <b>f"Za godinu dana biće {godine + 1}
+  godina."</b>.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Uneti proizvoljnu rečenicu u promenljivu, a zatim ispisati njenu
+  dužinu, verziju rečenice velikim slovima i broj pojavljivanja slova „a“ u
+  njoj.<br /><br />
+  <b>2.</b> U promenljivu upisati puno ime oblika <b>"Petar Petrović"</b>.
+  Pomoću metode <b>split()</b> razdvojiti ime i prezime u dve promenljive, a
+  zatim pomoću f-stringa ispisati tekst: <b>Prezime: Petrović, ime: Petar</b>.<br /><br />
+  <b>3.</b> Data je niska sa e-mail adresom oblika
+  <b>"korisnik@primer.com"</b>. Izdvojiti i ispisati zasebno korisničko ime
+  (deo pre znaka <b>@</b>) i domen (deo posle znaka <b>@</b>). Dodatno
+  ispisati celu adresu velikim slovima, bez eventualnih razmaka na početku i
+  kraju.
+</div>

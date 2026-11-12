@@ -1,0 +1,320 @@
+<h1>Operatori</h1>
+
+<p style="text-align: justify">
+  Operatori su specijalni simboli pomoću kojih se nad promenljivama i
+  vrednostima izvršavaju određene operacije, kao što su sabiranje, poređenje,
+  kombinovanje logičkih uslova i slično.
+</p>
+
+<h2>1. Aritmetički operatori</h2>
+<p style="text-align: justify">
+  Koriste se za osnovne matematičke operacije.
+</p>
+
+<table class="tabela">
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Značenje</th>
+      <th>Primer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>+</b></td>
+      <td>sabiranje</td>
+      <td>7 <b>+</b> 2 &rarr; 9</td>
+    </tr>
+    <tr>
+      <td><b>-</b></td>
+      <td>oduzimanje</td>
+      <td>7 <b>-</b> 2 &rarr; 5</td>
+    </tr>
+    <tr>
+      <td><b>*</b></td>
+      <td>množenje</td>
+      <td>7 <b>*</b> 2 &rarr; 14</td>
+    </tr>
+    <tr>
+      <td><b>/</b></td>
+      <td>deljenje (rezultat je float)</td>
+      <td>7 <b>/</b> 2 &rarr; 3.5</td>
+    </tr>
+    <tr>
+      <td><b>//</b></td>
+      <td>celobrojno deljenje</td>
+      <td>7 <b>//</b> 2 &rarr; 3</td>
+    </tr>
+    <tr>
+      <td><b>%</b></td>
+      <td>ostatak pri deljenju</td>
+      <td>7 <b>%</b> 2 &rarr; 1</td>
+    </tr>
+    <tr>
+      <td><b>**</b></td>
+      <td>stepenovanje</td>
+      <td>7 <b>**</b> 2 &rarr; 49</td>
+    </tr>
+  </tbody>
+</table>
+
+<b>Primer 1 (Aritmetički operatori):</b> Nad dva broja izračunati i
+ispisati zbir, količnik, celobrojni količnik, ostatak pri deljenju i
+stepen.
+<xmp class="primer_ta" title="">
+a = 17
+b = 4
+
+print(a + b)    # 21
+print(a / b)    # 4.25
+print(a // b)   # 4
+print(a % b)    # 1
+print(a ** b)   # 83521
+</xmp>
+
+<div class="napomena">
+  Ako se dolazi iz drugih programskih jezika ili iz matematike, važno je
+  zapamtiti da se u Pythonu stepenovanje piše <b>**</b>, nikako <b>^</b>.
+  Znak <b>^</b> u Pythonu ima potpuno drugo značenje (bitovska operacija
+  XOR) i ne koristi se za stepenovanje.
+</div>
+
+<h2>2. Operatori dodele</h2>
+<p style="text-align: justify">
+  Osim osnovnog operatora <b>=</b>, kojim se promenljivoj dodeljuje
+  vrednost, Python nudi i <b>složene operatore dodele</b>. Oni u jednom
+  koraku kombinuju aritmetičku operaciju i dodelu rezultata istoj
+  promenljivoj (npr. <b>+=</b>, <b>-=</b>, <b>*=</b>, <b>/=</b>,
+  <b>//=</b>, <b>%=</b>, <b>**=</b>).
+</p>
+
+<b>Primer 2 (Složeni operatori dodele):</b> Promenljivoj uvećati
+vrednost korišćenjem složenih operatora dodele <b>+=</b> i <b>*=</b>.
+<xmp class="primer_ta" title="">
+broj = 10
+broj += 5   # isto kao broj = broj + 5
+print(broj) # 15
+
+broj *= 2   # isto kao broj = broj * 2
+print(broj) # 30
+</xmp>
+
+<h2>3. Operatori poređenja</h2>
+<p style="text-align: justify">
+  Vraćaju logičku vrednost <b>True</b> ili <b>False</b>, u zavisnosti od
+  toga da li je uslov ispunjen.
+</p>
+
+<table class="tabela">
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Značenje</th>
+      <th>Primer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>==</b></td>
+      <td>jednako</td>
+      <td>5 <b>==</b> 5 &rarr; True</td>
+    </tr>
+    <tr>
+      <td><b>!=</b></td>
+      <td>različito</td>
+      <td>5 <b>!=</b> 3 &rarr; True</td>
+    </tr>
+    <tr>
+      <td><b>&gt;</b></td>
+      <td>veće</td>
+      <td>5 <b>&gt;</b> 3 &rarr; True</td>
+    </tr>
+    <tr>
+      <td><b>&lt;</b></td>
+      <td>manje</td>
+      <td>5 <b>&lt;</b> 3 &rarr; False</td>
+    </tr>
+    <tr>
+      <td><b>&gt;=</b></td>
+      <td>veće ili jednako</td>
+      <td>5 <b>&gt;=</b> 5 &rarr; True</td>
+    </tr>
+    <tr>
+      <td><b>&lt;=</b></td>
+      <td>manje ili jednako</td>
+      <td>3 <b>&lt;=</b> 5 &rarr; True</td>
+    </tr>
+  </tbody>
+</table>
+
+<b>Primer 3 (Poređenje vrednosti):</b> Uporediti dva broja operatorima
+jednakosti i „manje od“.
+<xmp class="primer_ta" title="">
+a = 10
+b = 15
+
+print(a == b)   # False
+print(a < b)    # True
+</xmp>
+
+<div class="napomena">
+  Važno je ne pomešati <b>=</b> i <b>==</b>. Jedan znak jednakosti
+  (<b>=</b>) je operator <b>dodele</b>. Njime se promenljivoj dodeljuje
+  vrednost (<span class="primer_text">npr. a = 10</span>). Dva znaka jednakosti
+  (<b>==</b>) čine operator <b>poređenja</b>. Njime se proverava da li su
+  dve vrednosti jednake i kao rezultat se dobija <b>True</b> ili
+  <b>False</b> (<span class="primer_text">npr. a == 10</span>).
+</div>
+
+<h2>4. Logički operatori</h2>
+<p style="text-align: justify">
+  Koriste se za kombinovanje više logičkih uslova.
+</p>
+
+<table class="tabela">
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Značenje</th>
+      <th>Opis</th>
+      <th>Primer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>and</b></td>
+      <td>logičko I (konjunkcija)</td>
+      <td>daje rezultat True samo ako su oba operanda True</td>
+      <td>True <b>and</b> False &rarr; False</td>
+    </tr>
+    <tr>
+      <td><b>or</b></td>
+      <td>logičko ILI (disjunkcija)</td>
+      <td>daje rezultat True ako je bar jedan operand True</td>
+      <td>True <b>or</b> False &rarr; True</td>
+    </tr>
+    <tr>
+      <td><b>not</b></td>
+      <td>logičko NE (negacija)</td>
+      <td>obrće logičku vrednost operanda</td>
+      <td><b>not</b> True &rarr; False</td>
+    </tr>
+  </tbody>
+</table>
+
+<b>Primer 4 (Logički operatori):</b> Proveriti da li osoba ispunjava
+uslov za vožnju (dovoljno godina i poseduje vozačku dozvolu) korišćenjem
+logičkih operatora.
+<xmp class="primer_ta" title="">
+godine = 20
+ima_dozvolu = True
+
+print(godine >= 18 and ima_dozvolu)   # True
+print(not ima_dozvolu)                # False
+</xmp>
+
+<h2>5. Operatori pripadnosti</h2>
+<p style="text-align: justify">
+  Operatorom <b>in</b> proverava se da li se neka vrednost nalazi unutar
+  kolekcije (niske, liste, torke...). Rezultat provere je logička vrednost
+  <b>True</b> ili <b>False</b>. Operator <b>not in</b> radi obrnuto, odnosno
+  rezultat provere je <b>True</b> kada vrednost <b>nije</b> deo kolekcije.
+</p>
+
+<table class="tabela">
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Značenje</th>
+      <th>Primer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>in</b></td>
+      <td>pripada (nalazi se u kolekciji)</td>
+      <td>"a" <b>in</b> "Ana" &rarr; True</td>
+    </tr>
+    <tr>
+      <td><b>not in</b></td>
+      <td>ne pripada (nije u kolekciji)</td>
+      <td>5 <b>not in</b> [1, 2, 3] &rarr; True</td>
+    </tr>
+  </tbody>
+</table>
+
+<b>Primer 5 (Operatori pripadnosti):</b> Proveriti da li se dati karakter
+nalazi u niski i da li se dato ime nalazi u listi.
+<xmp class="primer_ta" title="">
+ime = "Marko"
+spisak = ["Ana", "Jovana", "Petar"]
+
+print("k" in ime)          # True
+print("Marko" in spisak)   # False
+print("Marko" not in spisak)  # True
+</xmp>
+
+<h2>6. Operatori identiteta</h2>
+<p style="text-align: justify">
+  Operatorom <b>is</b> proverava se da li dve promenljive ukazuju na
+  <b>isti objekat</b> u memoriji (a ne samo da li imaju jednake
+  vrednosti). Operator <b>is not</b> je njegova negacija. U praksi se
+  najčešće koriste za proveru da li promenljiva ima „nikakvu“ vrednost,
+  odnosno da li je jednaka <b>None</b>.
+</p>
+
+<table class="tabela">
+  <thead>
+    <tr>
+      <th>Operator</th>
+      <th>Značenje</th>
+      <th>Primer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><b>is</b></td>
+      <td>isti objekat u memoriji</td>
+      <td>vrednost <b>is</b> None &rarr; True</td>
+    </tr>
+    <tr>
+      <td><b>is not</b></td>
+      <td>nije isti objekat u memoriji</td>
+      <td>ime <b>is not</b> None &rarr; True</td>
+    </tr>
+  </tbody>
+</table>
+
+<b>Primer 6 (Operatori identiteta):</b> Proveriti da li promenljiva ima
+vrednost <b>None</b>.
+<xmp class="primer_ta" title="">
+vrednost = None
+ime = "Ana"
+
+print(vrednost is None)       # True
+print(ime is not None)        # True
+</xmp>
+
+<div class="napomena">
+  Za poređenje <b>vrednosti</b> koristi se <b>==</b>, dok <b>is</b> poredi
+  <b>identitet</b> (da li je reč o istom objektu u memoriji). Van provere
+  sa <b>None</b>, u početnom radu skoro uvek treba koristiti <b>==</b>.<br /><br />
+  Pored svih navedenih, Python ima i <b>bitovske operatore</b>
+  (<b>&amp;</b>, <b>|</b>, <b>^</b>, <b>~</b>, <b>&lt;&lt;</b>,
+  <b>&gt;&gt;</b>), koji rade nad pojedinačnim bitovima celih brojeva. Oni
+  se u svakodnevnom radu koriste znatno ređe i ovde se ne obrađuju
+  detaljno.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napraviti promenljive <b>a</b> i <b>b</b> sa dva cela broja i
+  ispisati njihov zbir, razliku, proizvod i količnik.<br /><br />
+  <b>2.</b> Za dva zadata broja ispisati rezultate poređenja: da li su
+  jednaki, da li je prvi veći od drugog i da li je prvi broj paran (deljiv
+  sa 2 bez ostatka).<br /><br />
+  <b>3.</b> Za zadati broj sekundi izračunati i ispisati koliko je to punih
+  minuta i koliko sekundi preostaje (operatori <b>//</b> i <b>%</b>). Pomoću
+  logičkog operatora dodatno ispisati da li je uneti broj veći od jednog
+  sata (3600 sekundi).
+</div>

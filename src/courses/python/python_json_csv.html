@@ -1,0 +1,154 @@
+<h1>Rad sa JSON i CSV fajlovima</h1>
+
+<p style="text-align: justify">
+  Pored običnog teksta, podaci se veoma često čuvaju i razmenjuju u dva
+  standardizovana formata: <b>JSON</b>, pogodan za strukturirane podatke
+  (rečnike i liste), i <b>CSV</b>, pogodan za tabelarne podatke (redove i
+  kolone). Za oba formata Python ima ugrađene module, pa nije potrebna
+  nikakva dodatna instalacija.
+</p>
+
+<p style="text-align: justify">
+  Kao u prethodnoj lekciji, fajlovi mogu da se otvore pomoću funkcije <b>open()</b>
+  i naredbe <b>with</b>, u režimu <b>"r"</b> za čitanje, odnosno
+  <b>"w"</b> za pisanje. Za JSON i CSV podatke sadržaj se može obrađivati pomoću
+  funkcija i objekata iz modula <b>json</b> i <b>csv</b>, koji omogućavaju da se podaci automatski
+  pretvore u odgovarajuće Python strukture.
+</p>
+
+<h2>1. Upisivanje podataka u JSON fajl</h2>
+<p style="text-align: justify">
+  Modul <b>json</b> omogućava direktno pretvaranje Python rečnika (ili
+  liste) u JSON zapis, i obrnuto. Funkcija <b>dump()</b> upisuje podatke u
+  fajl.
+</p>
+
+<b>Primer 1 (Upisivanje rečnika u JSON fajl):</b> Sačuvati rečnik koji
+predstavlja osobu u JSON fajl.
+<xmp class="primer_ta" title="">
+import json
+
+osoba = {"ime": "Saša", "godine": 25, "grad": "Beograd"}
+
+with open("osoba.json", "w", encoding="utf-8") as fajl:
+    json.dump(osoba, fajl, ensure_ascii=False, indent=4)
+</xmp>
+
+<div class="napomena">
+  Parametar <b>ensure_ascii=False</b> obezbeđuje da se naša slova (č, ć, ž,
+  š, đ) upišu čitljivo, umesto da budu zamenjena kodovima. Parametar
+  <b>indent=4</b> podešava uvlačenje, radi preglednijeg zapisa.
+</div>
+
+<h2>2. Čitanje podataka iz JSON fajla</h2>
+<p style="text-align: justify">
+  Funkcija <b>load()</b> radi obrnuto od funkcije <b>dump()</b>. Ona
+  učitava sadržaj JSON fajla i pretvara ga nazad u odgovarajuću Python
+  strukturu (rečnik ili listu).
+</p>
+
+<b>Primer 2 (Čitanje JSON fajla):</b> Učitati podatke o osobi iz JSON
+fajla, uz obradu slučaja kada fajl ne postoji.
+<xmp class="primer_ta" title="">
+import json
+
+try:
+    with open("osoba.json", "r", encoding="utf-8") as fajl:
+        osoba = json.load(fajl)
+    print(osoba["ime"], "-", osoba["godine"], "godina")
+except FileNotFoundError:
+    print("Fajl 'osoba.json' ne postoji.")
+</xmp>
+
+<h2>3. Pisanje u CSV fajl</h2>
+<p style="text-align: justify">
+  Modul <b>csv</b> olakšava rad sa tabelarnim podacima u tekstualnom
+  obliku, gde su vrednosti u okviru reda razdvojene određenim separatorom, najčešće zarezom. Objekat
+  <b>writer</b> se kreira nad otvorenim fajlom, a metoda
+  <b>writerow()</b> upisuje jedan red.
+</p>
+
+<b>Primer 3 (Upisivanje tabele u CSV fajl):</b> Sačuvati tabelu
+proizvoda, sa zaglavljem, u CSV fajl.
+<xmp class="primer_ta" title="">
+import csv
+
+with open("proizvodi.csv", "w", encoding="utf-8", newline="") as fajl:
+    writer = csv.writer(fajl)
+    writer.writerow(["Proizvod", "Količina", "Cena"])
+    writer.writerow(["Jabuke", 120, 90])
+    writer.writerow(["Kruške", 85, 110])
+</xmp>
+
+<div class="napomena">
+  Parametar <b>newline=""</b> prilikom otvaranja CSV fajla sprečava
+  pojavu praznih redova između podataka na Windows operativnom sistemu.
+</div>
+
+<h2>4. Čitanje CSV fajla</h2>
+<p style="text-align: justify">
+  CSV fajl se čita red po red, pomoću <b>for</b> petlje, slično kao što
+  se obični tekstualni fajl čita liniju po liniju. U svakom prolazu petlje
+  dobija se po jedan red tabele, a oblik u kom se taj red dobija zavisi od
+  toga da li se koristi <b>csv.reader()</b> ili <b>csv.DictReader()</b>.
+</p>
+
+<p style="text-align: justify">
+  Kod <b>csv.reader()</b> svaki red se dobija kao posebna <b>lista</b>
+  niski, a vrednostima se pristupa preko indeksa. Prvi red fajla
+  (zaglavlje) se čita kao i svaki drugi red.
+</p>
+
+<xmp class="primer_ta" title="">
+import csv
+
+with open("proizvodi.csv", "r", encoding="utf-8") as fajl:
+    reader = csv.reader(fajl)
+    for red in reader:
+        print(red)
+# ['Proizvod', 'Količina', 'Cena']
+# ['Jabuke', '120', '90']
+# ['Kruške', '85', '110']
+</xmp>
+
+<p style="text-align: justify">
+  Kod <b>csv.DictReader()</b> prvi red fajla (zaglavlje) se ne dobija kao
+  red sa podacima, već se njegove vrednosti koriste kao ključevi. Svaki sledeći red se dobija kao
+  poseban <b>rečnik</b>, pa se vrednostima pristupa preko naziva kolone,
+  što je obično preglednije.
+</p>
+
+<b>Primer 4 (Čitanje CSV fajla pomoću DictReader-a):</b> Učitati tabelu
+proizvoda iz CSV fajla i ispisati naziv i cenu svakog proizvoda.
+<xmp class="primer_ta" title="">
+import csv
+
+with open("proizvodi.csv", "r", encoding="utf-8") as fajl:
+    reader = csv.DictReader(fajl)
+    for red in reader:
+        print(red["Proizvod"], "->", red["Cena"], "din.")
+# Jabuke -> 90 din.
+# Kruške -> 110 din.
+</xmp>
+
+<div class="napomena">
+  Sve vrednosti iz CSV fajla se čitaju kao niske (npr. <b>'90'</b>, a ne
+  <b>90</b>). Ukoliko je potrebno računati sa njima, prethodno ih treba
+  pretvoriti u broj, na primer pomoću funkcije <b>int()</b>.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napraviti rečnik koji predstavlja knjigu, sa ključevima
+  "naslov", "autor" i "godina", i sačuvati ga u fajl <b>knjiga.json</b>
+  pomoću funkcije <b>dump()</b>.<br /><br />
+  <b>2.</b> Učitati fajl <b>knjiga.json</b> iz prethodnog zadatka pomoću
+  funkcije <b>load()</b> i ispisati naslov i autora knjige. Obraditi slučaj
+  kada fajl ne postoji.<br /><br />
+  <b>3.</b> Pomoću <b>csv.writer</b> kreirati fajl <b>ocene.csv</b> sa
+  zaglavljem "Ime" i "Ocena" i upisati u njega podatke za tri
+  učenika.<br /><br />
+  <b>4.</b> Pomoću <b>csv.DictReader</b> učitati fajl <b>ocene.csv</b> iz
+  prethodnog zadatka i za svakog učenika ispisati ime i ocenu (npr.
+  „Ana: 5“).
+</div>

@@ -1,0 +1,122 @@
+<h1>Rukovanje izuzecima (try/except)</h1>
+
+<p style="text-align: justify">
+  <b>Izuzetak</b> (exception) je greška koja se javlja tokom izvršavanja
+  programa, zbog koje program, ukoliko se greška ne obradi, prestaje sa radom.
+  Do sada smo videli primere koda koji mogu izazvati izuzetak,
+  na primer, pretvaranje teksta koji nije broj u <b>int</b> ili deljenje
+  nulom.
+</p>
+
+<b>Primer 1 (Program koji se ruši zbog izuzetka):</b> Pretvoriti
+tekstualni podatak koji nije broj u tip int, bez obrade izuzetka.
+<xmp class="primer_ta" title="">
+broj = int("nije broj")   # ValueError - program prekida rad ovde
+print("Ova linija se nikada neće izvršiti.")
+</xmp>
+
+<h2>1. Blok try/except</h2>
+<p style="text-align: justify">
+  Da bi se izuzetak <b>uhvatio</b> i obradio, umesto da sruši program, kod
+  koji potencijalno izaziva grešku piše se unutar <b>try</b> bloka, a kod
+  koji se izvršava ukoliko dođe do greške piše se unutar <b>except</b> bloka.
+</p>
+
+<b>Primer 2 (Hvatanje izuzetka):</b> Učitati broj unet sa tastature i obraditi
+slučaj kada uneti tekst nije ispravan broj.
+<xmp class="primer_ta" title="">
+try:
+    broj = int(input("Unesite ceo broj: "))
+    print("Uneli ste broj:", broj)
+except ValueError:
+    print("Greška: uneti tekst nije ceo broj.")
+</xmp>
+
+<div class="napomena">
+  Funkcija <b>input()</b> ispisuje poruku navedenu u zagradi, zaustavlja
+  program i čeka da korisnik nešto unese sa tastature i pritisne taster
+  Enter. Uneti sadržaj funkcija vraća uvek kao <b>tekst (str)</b>, čak i
+  kada korisnik unese broj. Zato se rezultat pretvara u ceo broj pomoću
+  funkcije <b>int()</b>, a upravo na tom mestu nastaje greška
+  <b>ValueError</b> ukoliko uneti tekst nije ceo broj.
+</div>
+
+<p style="text-align: justify">
+  Kod u <b>try</b> bloku se svakako izvršava (dok se ne naiđe na grešku), dok se <b>except</b> izvršava samo ako u <b>try</b> bloku zaista
+  dođe do greške navedenog tipa. Ako greške nema, blok <b>except</b> se
+  preskače, a program nastavlja normalno.
+</p>
+
+<h2>2. Hvatanje različitih tipova izuzetaka</h2>
+<p style="text-align: justify">
+  Svaki tip greške ima svoju klasu izuzetka (npr. <b>ValueError</b> za
+  neispravnu vrednost, <b>ZeroDivisionError</b> za deljenje nulom,
+  <b>FileNotFoundError</b> za fajl koji ne postoji). Moguće je napisati
+  više <b>except</b> blokova, po jedan za svaki tip greške koji očekujemo.
+</p>
+
+<b>Primer 3 (Više except blokova):</b> Podeliti dva uneta broja i
+odvojeno obraditi slučaj neispravnog unosa i slučaj deljenja nulom.
+<xmp class="primer_ta" title="">
+try:
+    a = int(input("Prvi broj: "))
+    b = int(input("Drugi broj: "))
+    print(a / b)
+except ValueError:
+    print("Greška: oba unosa moraju biti celi brojevi.")
+except ZeroDivisionError:
+    print("Greška: deljenje nulom nije dozvoljeno.")
+</xmp>
+
+<h2>3. Blokovi else i finally</h2>
+<p style="text-align: justify">
+  Blok <b>else</b> se izvršava samo ako u <b>try</b> bloku nije došlo do
+  greške, dok se blok <b>finally</b> izvršava uvek, bez obzira na to da
+  li je greška nastala ili ne. Blok <b>finally</b> se koristi za radnje
+  koje moraju biti izvršene u svakom slučaju, na primer za ispis završne
+  poruke.
+</p>
+
+<b>Primer 4 (Kompletan try/except/else/finally blok):</b> Učitati ceo
+broj sa tastature i ispisati njegov kvadrat, uz obradu slučaja kada uneti
+tekst nije ceo broj. Na kraju, bez obzira na ishod, ispisati završnu
+poruku.
+<xmp class="primer_ta" title="">
+try:
+    broj = int(input("Unesite ceo broj: "))
+except ValueError:
+    print("Greška: uneti tekst nije ceo broj.")
+else:
+    print("Kvadrat unetog broja je", broj ** 2)
+finally:
+    print("Kraj programa.")
+</xmp>
+
+<p style="text-align: justify">
+  Ako korisnik unese, na primer, broj 5, izvršavaju se blokovi
+  <b>try</b>, <b>else</b> i <b>finally</b>, pa program ispisuje
+  „Kvadrat unetog broja je 25“ i „Kraj programa.“. Ako korisnik unese
+  tekst koji nije broj, izvršavaju se blokovi <b>try</b> (do mesta
+  greške), <b>except</b> i <b>finally</b>, pa program ispisuje poruku o
+  grešci "Greška: uneti tekst nije ceo broj." i „Kraj programa.“. Blok <b>finally</b> se, dakle, izvršava u oba
+  slučaja.
+</p>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napisati program koji od korisnika traži da unese dva broja i
+  ispisuje rezultat njihovog deljenja. Program treba da ispravno obradi
+  slučaj kada uneti tekst nije broj (ValueError) i slučaj kada je drugi broj
+  0 (ZeroDivisionError), ispisujući odgovarajuću poruku o grešci umesto da se
+  sruši.<br /><br />
+  <b>2.</b> Data je lista sa nekoliko elemenata. Napisati program koji od
+  korisnika traži da unese redni broj (indeks) elementa i ispisuje element
+  liste na toj poziciji. Obraditi slučaj kada uneti tekst nije broj
+  (<b>ValueError</b>) i slučaj kada je indeks van opsega liste
+  (<b>IndexError</b>).<br /><br />
+  <b>3.</b> Napisati funkciju <b>pretvori_u_broj(tekst)</b> koja pokušava da
+  tekst pretvori u ceo broj i vrati ga, a u slučaju greške vraća <b>None</b>.
+  Bez obzira na ishod, funkcija na kraju (blok <b>finally</b>) ispisuje
+  poruku "Obrada završena". Pozvati funkciju za nekoliko različitih ulaza i
+  ispisati rezultate.
+</div>

@@ -1,0 +1,191 @@
+<h1>Funkcije</h1>
+
+<p style="text-align: justify">
+  Funkcija je imenovani blok koda koji izvršava određeni zadatak i može se
+  pozvati (izvršiti) više puta iz različitih delova programa. Korišćenjem
+  funkcija kod postaje pregledniji, kraći i lakši za održavanje, jer se
+  izbegava ponavljanje istih naredbi.
+</p>
+
+<h2>1. Definisanje i pozivanje funkcije</h2>
+<p style="text-align: justify">
+  Funkcija se definiše ključnom rečju <b>def</b>, nazivom funkcije i
+  zagradama koje mogu (ali ne moraju) sadržati parametre.
+</p>
+
+<b>Primer 1 (Jednostavna funkcija):</b> Definisati funkciju koja ispisuje
+poruku na ekranu, i pozvati je.
+<xmp class="primer_ta" title="">
+def pozdrav():
+    print("Zdravo, svete!")
+
+pozdrav()   # poziv funkcije
+</xmp>
+
+<p style="text-align: justify">
+  Kod definisanja funkcije, telo funkcije (kod koji se izvršava) mora biti
+  uvučeno (indentovano), kao i kod uslova i petlji. To Python koristi za
+  određivanje granica bloka koda.
+</p>
+
+<div class="napomena">
+  Kao i promenljive, funkcije se po zvaničnim preporukama za pisanje
+  Python koda (<b>PEP 8</b>) imenuju u stilu <b>snake_case</b>. Naziv
+  funkcije treba da bude dovoljno opisan da iz njega, bez čitanja koda,
+  bude jasno šta se tačno dešava kada se funkcija pozove. Zato se najčešće koristi glagol koji opisuje radnju (npr. <b>izracunaj_prosek()</b>,
+  <b>posalji_email()</b>), a ne nejasni, uopšteni nazivi poput
+  <b>f()</b> ili <b>obradi()</b>.
+</div>
+
+<h2>2. Parametri funkcije</h2>
+<p style="text-align: justify">
+  Parametri omogućavaju da se funkciji prosledi vrednost sa kojom će raditi.
+  Prilikom poziva funkcije, ta vrednost se naziva <b>argument</b>.
+</p>
+
+<b>Primer 2 (Funkcija sa parametrom):</b> Definisati funkciju koja
+pozdravlja osobu čije se ime prosleđuje kao argument, i pozvati je za
+dve različite osobe.
+<xmp class="primer_ta" title="">
+def pozdravi_osobu(ime):
+    print("Zdravo, " + ime + "!")
+
+pozdravi_osobu("Marko")   # Zdravo, Marko!
+pozdravi_osobu("Ana")     # Zdravo, Ana!
+</xmp>
+
+<h2>3. Povratna vrednost - return</h2>
+<p style="text-align: justify">
+  Naredba <b>return</b> prekida izvršavanje funkcije i vraća rezultat
+  pozivaocu. Ukoliko funkcija nema naredbu <b>return</b>, ona podrazumevano
+  vraća vrednost <b>None</b>.
+</p>
+
+<b>Primer 3 (Funkcija koja vraća vrednost):</b> Definisati funkciju koja
+sabira dva broja i vraća rezultat.
+<xmp class="primer_ta" title="">
+def saberi(a, b):
+    return a + b
+
+rezultat = saberi(5, 7)
+print(rezultat)   # 12
+</xmp>
+
+<h2>4. Podrazumevane vrednosti parametara</h2>
+<p style="text-align: justify">
+  Parametru je moguće dodeliti podrazumevanu vrednost, koja se koristi
+  ukoliko prilikom poziva funkcije taj argument nije prosleđen.
+</p>
+
+<b>Primer 4 (Podrazumevani parametar):</b> Definisati funkciju za
+stepenovanje sa podrazumevanim eksponentom, i pozvati je sa i bez
+eksplicitno navedenog eksponenta.
+<xmp class="primer_ta" title="">
+def stepenuj(broj, eksponent=2):
+    return broj ** eksponent
+
+print(stepenuj(5))        # 25 (koristi podrazumevani eksponent 2)
+print(stepenuj(5, 3))     # 125 (eksponent je eksplicitno prosleđen)
+</xmp>
+
+<h2>5. Lambda funkcije</h2>
+<p style="text-align: justify">
+  <b>Lambda funkcija</b> je kratka, bezimena (anonimna) funkcija, napisana
+  u jednoj liniji, bez naredbe <b>def</b> i bez <b>return</b> (rezultat
+  izraza se vraća automatski). Osnovni oblik izgleda ovako:
+</p>
+
+<p style="margin-left: 30px">
+  <b>lambda</b> parametri<b>:</b> izraz
+</p>
+
+<b>Primer 5 (Kreiranje i pozivanje lambda funkcije):</b> Napraviti lambda
+funkciju koja kvadrira zadati broj, i pozvati je.
+<xmp class="primer_ta" title="">
+kvadriraj = lambda broj: broj ** 2
+
+print(kvadriraj(5))    # 25
+</xmp>
+
+<div class="napomena">
+  Lambda izraz iznad je kraći zapis sledeće, uobičajeno definisane
+  funkcije:<br />
+  <b>def kvadriraj(broj):</b><br />
+  &nbsp;&nbsp;<b>return broj ** 2</b>
+  <br /><br />
+  Lambda funkcija može imati i više parametara, razdvojenih zarezom (npr.
+  <b>lambda a, b: a + b</b>), ali njeno telo mora biti tačno jedan izraz.
+ Za razliku od obične funkcije, u njemu se ne mogu pisati uslovi, petlje
+  ni više naredbi.
+</div>
+
+<p style="text-align: justify">
+  Iako se, kao u primeru iznad, lambda funkcija može dodeliti promenljivoj
+  i pozivati po imenu, njena prava svrha je da se koristi tamo gde je
+  funkcija potrebna samo privremeno, na jednom mestu, najčešće kao
+  argument koji se prosleđuje drugoj funkciji, kao što je parametar
+  <b>key</b> kod funkcije <b>sorted()</b> (obrađene u lekciji o listama).
+</p>
+
+<b>Primer 6 (Sortiranje proizvoda po ceni pomoću lambda funkcije):</b>
+Listu proizvoda sortirati po ceni, koristeći lambda funkciju kao ključ
+za sortiranje.
+<xmp class="primer_ta" title="">
+proizvodi = [
+    {"naziv": "Jabuke", "cena": 120},
+    {"naziv": "Kruške", "cena": 90},
+    {"naziv": "Grožđe", "cena": 250},
+]
+
+sortirano = sorted(proizvodi, key=lambda proizvod: proizvod["cena"])
+for proizvod in sortirano:
+    print(proizvod["naziv"], "-", proizvod["cena"])
+</xmp>
+
+<div class="napomena">
+  Izraz <b>lambda proizvod: proizvod["cena"]</b> je kraći zapis funkcije
+  koja bi, definisana na uobičajen način, izgledala ovako:<br />
+  <b>def po_ceni(proizvod):</b><br />
+  &nbsp;&nbsp;<b>return proizvod["cena"]</b>
+</div>
+
+<h2>6. Rekurzija</h2>
+<p style="text-align: justify">
+  <b>Rekurzivna</b> funkcija je funkcija koja, u svom telu, poziva samu
+  sebe. Svaka rekurzivna funkcija mora imati <b>bazni slučaj</b> (uslov
+  pod kojim se poziv zaustavlja), kako bi izbegla beskonačno pozivanje.
+</p>
+
+<b>Primer 7 (Izračunavanje faktorijela rekurzijom):</b> Napisati
+rekurzivnu funkciju koja izračunava faktorijel zadatog broja.
+<xmp class="primer_ta" title="">
+def faktorijel(n):
+    if n == 0:            # bazni slučaj
+        return 1
+    return n * faktorijel(n - 1)
+
+print(faktorijel(5))    # 120 (5 * 4 * 3 * 2 * 1)
+</xmp>
+
+<div class="napomena">
+  Isti zadatak se najčešće može rešiti i običnom (iterativnom) petljom,
+  koja je u Pythonu obično brža i lakša za praćenje. Rekurzija je
+  praktičnija kod problema koji su po prirodi podeljeni na manje, istovrsne
+  probleme (na primer, pretraga stabla direktorijuma).
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napisati funkciju <b>je_prost(broj)</b> koja proverava da li je
+  zadati ceo broj prost i vraća <b>True</b> ili <b>False</b>. Pozvati funkciju
+  za nekoliko različitih brojeva i ispisati rezultate. Zatim napisati i
+  rekurzivnu funkciju <b>suma_do(n)</b>, koja izračunava zbir svih celih
+  brojeva od 1 do n.<br /><br />
+  <b>2.</b> Napisati funkciju <b>najveci(a, b, c)</b> koja vraća najveći od
+  tri prosleđena broja. Pozvati je za nekoliko različitih trojki brojeva i
+  ispisati rezultate.<br /><br />
+  <b>3.</b> Napisati funkciju <b>pozdrav(ime, poruka="Dobrodošli")</b> sa
+  podrazumevanom vrednošću drugog parametra, koja vraća f-string oblika
+  <b>"Dobrodošli, Ana!"</b>. Pozvati je jednom sa oba argumenta i jednom samo
+  sa imenom.
+</div>

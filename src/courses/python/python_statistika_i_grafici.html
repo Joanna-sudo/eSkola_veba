@@ -1,0 +1,205 @@
+<h1>Statistika i grafici</h1>
+
+<p style="text-align: justify">
+  Kada su podaci učitani u Python (na primer, iz Excel tabele opisane u
+  prethodnoj lekciji), često je korisno izračunati osnovne statističke
+  vrednosti, kao što su zbir, prosek, minimum i maksimum, a zatim ih
+  grafički prikazati radi lakšeg uočavanja i razumevanja podataka. Za crtanje grafika često se koristi
+  biblioteka <b>matplotlib</b>.
+</p>
+
+<h2>1. Instalacija biblioteke</h2>
+<p style="text-align: justify">
+  Biblioteka se instalira pomoću pip-a iz komandne linije:
+</p>
+
+<xmp class="primer_ta" title="">
+pip install matplotlib
+</xmp>
+
+<h2>2. Osnovna statistika nad podacima</h2>
+<p style="text-align: justify">
+  Za izračunavanje zbira, proseka, minimuma i maksimuma liste brojeva nije
+  potrebna nikakva dodatna biblioteka. Dovoljne su ugrađene funkcije
+  <b>sum()</b>, <b>len()</b>, <b>max()</b> i <b>min()</b>.
+</p>
+
+<b>Primer 1 (Zbir, prosek, maksimum i minimum):</b> Za listu prodatih
+količina izračunati i ispisati ukupnu, prosečnu, najveću i najmanju
+vrednost.
+<xmp class="primer_ta" title="">
+kolicine = [120, 85, 150, 60, 95]
+
+print("Ukupno:", sum(kolicine))
+print("Prosek:", sum(kolicine) / len(kolicine))
+print("Maksimum:", max(kolicine))
+print("Minimum:", min(kolicine))
+</xmp>
+
+<div class="napomena">
+  Podaci za listu <b>kolicine</b> ne moraju biti uneti ručno kao u primeru.
+  Mogu se, na primer, učitati direktno iz Excel tabele pomoću biblioteke
+  <b>openpyxl</b>, na način opisan u prethodnoj lekciji.
+</div>
+
+<div class="napomena">
+  Srednja vrednost (prosek) je u ovom primeru izračunata deljenjem zbira
+  brojem elemenata liste. Na kraju lekcije prikazan je i drugi način, pomoću
+  gotove funkcije <b>mean()</b> iz modula <b>statistics</b>.
+</div>
+
+<h2>3. Crtanje stubičastog (bar) grafika</h2>
+<p style="text-align: justify">
+  Modul <b>pyplot</b> iz biblioteke matplotlib se, po ustaljenoj konvenciji,
+  uvozi pod skraćenim imenom <b>plt</b>. Stubičasti grafik se crta pomoću
+  funkcije <b>bar()</b>, kojoj se prosleđuju nazivi (x-osa) i vrednosti
+  (y-osa).
+</p>
+
+<b>Primer 2 (Prodaja po proizvodima):</b> Prikazati prodate količine
+proizvoda pomoću stubičastog grafika i sačuvati ga kao sliku.
+<xmp class="primer_ta" title="">
+import matplotlib.pyplot as plt
+
+proizvodi = ["Jabuke", "Kruške", "Banane", "Grožđe"]
+kolicine = [120, 85, 150, 60]
+
+plt.bar(proizvodi, kolicine, color="seagreen")
+plt.xlabel("Proizvod")
+plt.ylabel("Prodata količina")
+plt.title("Prodaja po proizvodima")
+
+plt.savefig("prodaja.png")
+plt.show()
+</xmp>
+
+<p style="text-align: justify">
+  Rezultat izvršavanja ovog programa je grafik prikazan na slici ispod:
+</p>
+
+<img
+  src="courses/python/img/grafik_pr_2.png"
+  class="img-fluid" style="width: 32%"
+/>
+
+<p style="text-align: justify">
+  Funkcija <b>savefig()</b> čuva grafik kao sliku, dok <b>show()</b>
+  otvara prozor sa grafikom na ekranu.
+</p>
+
+<p style="text-align: justify">
+  Parametru <b>color</b> se, umesto jedne boje, može proslediti i lista
+  boja, po jedna za svaki stubić (npr.
+  <b>color=["seagreen", "tomato", "goldenrod", "steelblue"]</b>). Spisak svih
+  imenovanih boja koje matplotlib podržava (poput <b>"seagreen"</b> i
+  <b>"royalblue"</b>) može se pronaći na zvaničnom sajtu
+  <a
+    href="https://matplotlib.org/stable/gallery/color/named_colors.html"
+    target="_blank"
+    >matplotlib.org/stable/gallery/color/named_colors.html</a
+  >.
+</p>
+
+<h2>4. Crtanje linijskog grafika</h2>
+<p style="text-align: justify">
+  Za prikaz kretanja vrednosti kroz vreme (trenda) pogodniji je linijski
+  grafik, koji se crta pomoću funkcije <b>plot()</b>.
+</p>
+
+<b>Primer 3 (Kretanje prihoda kroz mesece):</b> Prikazati kretanje
+mesečnog prihoda pomoću linijskog grafika.
+<xmp class="primer_ta" title="">
+import matplotlib.pyplot as plt
+
+meseci = ["Jan", "Feb", "Mar", "Apr", "Maj"]
+prihod = [1200, 1500, 1100, 1800, 2000]
+
+plt.plot(meseci, prihod, marker="o", color="royalblue")
+plt.xlabel("Mesec")
+plt.ylabel("Prihod (u evrima)")
+plt.title("Kretanje prihoda")
+plt.grid(True)
+
+plt.show()
+</xmp>
+
+<p style="text-align: justify">
+  Rezultat izvršavanja ovog programa je grafik prikazan na slici ispod:
+</p>
+
+<img
+  src="courses/python/img/grafik_pr_3_linijski.png"
+  class="img-fluid" style="width: 32%"
+/>
+
+<p style="text-align: justify">
+  Parametar <b>marker="o"</b> označava tačke na grafiku kružićima, dok
+  <b>plt.grid(True)</b> dodaje pomoćnu mrežu koja olakšava čitanje
+  vrednosti sa grafika.
+</p>
+
+<h2>5. Modul statistics</h2>
+<p style="text-align: justify">
+  Python sadrži i modul <b>statistics</b>, sa gotovim funkcijama za
+  najčešće korišćene statističke vrednosti. Modul je deo standardne
+  biblioteke, pa se ne instalira, već se samo uvozi naredbom
+  <b>import</b>. Najvažnije funkcije ovog modula su:
+</p>
+
+<ul>
+  <li>
+    <b>mean()</b> - računa srednju vrednost (prosek), odnosno zbir svih
+    vrednosti podeljen njihovim brojem.
+  </li>
+  <li>
+    <b>median()</b> - računa medijanu, odnosno vrednost koja se nalazi u
+    sredini kada se podaci poređaju po veličini.
+  </li>
+  <li>
+    <b>mode()</b> - određuje mod, odnosno vrednost koja se u podacima
+    najčešće pojavljuje.
+  </li>
+  <li>
+    <b>stdev()</b> - računa standardnu devijaciju, koja pokazuje koliko
+    vrednosti u proseku odstupaju od srednje vrednosti.
+  </li>
+</ul>
+
+<b>Primer 4 (Srednja vrednost, medijana, mod i standardna devijacija):</b>
+Za listu prodatih količina izračunati i ispisati srednju vrednost,
+medijanu, mod i standardnu devijaciju.
+<xmp class="primer_ta" title="">
+import statistics
+
+kolicine = [120, 85, 150, 60, 95, 85]
+
+print("Srednja vrednost:", statistics.mean(kolicine))
+print("Medijana:", statistics.median(kolicine))
+print("Mod:", statistics.mode(kolicine))
+print("Standardna devijacija:", statistics.stdev(kolicine))
+</xmp>
+
+<div class="napomena">
+  Ako lista ima paran broj elemenata, kao u ovom primeru, medijana je
+  prosek dve srednje vrednosti (ovde 85 i 95, pa je medijana 90).
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napisati Python program koji iz tabele <b>prodaja.xlsx</b>,
+  korišćene u prethodnoj lekciji, učitava kolone <b>Proizvod</b> i
+  <b>Količina</b> u dve liste. Program zatim izračunava i ispisuje ukupnu,
+  prosečnu, najveću i najmanju količinu, a učitane podatke prikazuje pomoću
+  stubičastog (bar) grafika, sa nazivima proizvoda na x-osi.<br /><br />
+  <b>2.</b> Samostalno formirati dve liste: listu sa nazivima najmanje šest
+  meseci i listu sa prihodom za svaki od tih meseci (vrednosti izabrati
+  proizvoljno i upisati ih direktno u program). Na osnovu tih podataka
+  nacrtati linijski grafik sa označenim tačkama (<b>marker</b>) i pomoćnom
+  mrežom, dodati naslov i nazive osa, i sačuvati ga kao sliku
+  <b>prihodi.png</b>.<br /><br />
+  <b>3.</b> Samostalno formirati listu sa imenima najmanje četiri učenika i,
+  za svakog od njih, listu od nekoliko ocena (podatke izabrati proizvoljno i
+  upisati ih direktno u program). Izračunati prosečnu ocenu svakog učenika i
+  prikazati proseke stubičastim grafikom, sa imenima učenika na x-osi, pa
+  sačuvati grafik kao sliku <b>proseci.png</b>.
+</div>

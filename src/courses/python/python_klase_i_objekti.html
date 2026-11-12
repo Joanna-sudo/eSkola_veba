@@ -1,0 +1,173 @@
+<h1>Klase i objekti</h1>
+
+<p style="text-align: justify">
+  Python podržava <b>objektno orijentisano programiranje</b> (skraćeno
+  <b>OOP</b>). OOP je pristup programiranju u kom se podaci i funkcije koje nad
+  njima rade grupišu zajedno u jednu celinu koja se naziva <b>klasa</b>.
+  Do sada su podaci (npr. naziv i cena proizvoda) i funkcije koje ih
+  obrađuju bili odvojeni jedni od drugih; klase omogućavaju da se povežu u
+  jednu smislenu celinu.
+</p>
+
+<h2>1. Definisanje klase</h2>
+<p style="text-align: justify">
+  Klasa se definiše ključnom rečju <b>class</b> i predstavlja svojevrsan
+  „nacrt“ ili šablon, na osnovu kog se kasnije prave konkretni
+  <b>objekti</b> (instance te klase).
+</p>
+
+<b>Primer 1 (Definisanje klase i kreiranje objekta):</b> Definisati
+praznu klasu i napraviti jedan njen objekat.
+<xmp class="primer_ta" title="">
+class Proizvod:
+    pass
+
+p1 = Proizvod()    # kreiranje objekta klase Proizvod
+print(type(p1))    # <class '__main__.Proizvod'>
+</xmp>
+
+<div class="napomena">
+  Po zvaničnim preporukama za pisanje Python koda (<b>PEP 8</b>), naziv
+  klase se piše u stilu <b>PascalCase</b>, odnosno svaka reč u nazivu počinje
+  velikim slovom, bez donje crte između njih (npr. <b>Proizvod</b>,
+  <b>RadniNalog</b>). Promenljive i funkcije se, kao što je opisano u
+  lekciji o promenljivama, imenuju drugačije, u stilu <b>snake_case</b>.
+</div>
+
+<h2>2. Konstruktor i atributi</h2>
+<p style="text-align: justify">
+  Funkcije koje su definisane unutar klase nazivaju se <b>metode</b>, a
+  podaci koje svaki objekat te klase poseduje nazivaju se <b>atributi</b>.
+  Posebna metoda <b>__init__()</b> naziva se <b>konstruktor</b> i
+  automatski se poziva prilikom kreiranja objekta. U njoj se najčešće
+  postavljaju početne vrednosti atributa. Prvi parametar svake metode je
+  <b>self</b> i predstavlja sam objekat nad kojim se metoda poziva.
+</p>
+
+<b>Primer 2 (Konstruktor sa atributima):</b> Definisati klasu proizvoda
+sa atributima naziv i cena, i ispisati vrednosti tih atributa.
+<xmp class="primer_ta" title="">
+class Proizvod:
+    def __init__(self, naziv, cena):
+        self.naziv = naziv
+        self.cena = cena
+
+p1 = Proizvod("Jabuke", 120)
+
+print(p1.naziv)    # Jabuke
+print(p1.cena)     # 120
+</xmp>
+
+<div class="napomena">
+  <b>self</b> se ne prosleđuje eksplicitno prilikom poziva
+  (<b>Proizvod("Jabuke", 120)</b> ima dva argumenta, iako konstruktor
+  prima tri parametra). Python ga automatski prosleđuje kao referencu
+  na objekat koji se upravo kreira.
+</div>
+
+<h2>3. Metode</h2>
+<p style="text-align: justify">
+  Osim konstruktora, klasa može sadržati i druge metode. One se definišu
+  na isti način kao obične funkcije, a najčešće rade sa atributima
+  objekta nad kojim su pozvane (preko <b>self</b>). Metoda može na osnovu
+  atributa izračunati i vratiti neku vrednost, ali može i promeniti
+  vrednost atributa, čime se menja stanje samog objekta.
+</p>
+
+<b>Primer 3 (Dodavanje metoda klasi):</b> Klasi proizvoda dodati metodu
+koja izračunava ukupnu vrednost na osnovu cene i količine, kao i metodu
+koja smanjuje količinu proizvoda nakon prodaje.
+<xmp class="primer_ta" title="">
+class Proizvod:
+    def __init__(self, naziv, cena, kolicina):
+        self.naziv = naziv
+        self.cena = cena
+        self.kolicina = kolicina
+
+    def ukupna_vrednost(self):
+        return self.cena * self.kolicina
+
+    def prodaj(self, n):
+        self.kolicina = self.kolicina - n    # menja se atribut objekta
+
+p1 = Proizvod("Jabuke", 120, 5)
+print(p1.ukupna_vrednost())    # 600
+
+p1.prodaj(2)
+print(p1.kolicina)             # 3
+print(p1.ukupna_vrednost())    # 360
+</xmp>
+
+<h2>4. Više objekata iste klase</h2>
+<p style="text-align: justify">
+  Od jedne klase moguće je napraviti proizvoljan broj objekata, od kojih
+  svaki ima svoje, nezavisne vrednosti atributa. U primeru se koristi
+  klasa <b>Proizvod</b> iz Primera 3.
+</p>
+
+<b>Primer 4 (Rad sa više objekata):</b> Napraviti listu od dva
+objekta klase Proizvod i za svaki ispisati naziv i ukupnu vrednost.
+<xmp class="primer_ta" title="">
+proizvodi = [
+    Proizvod("Jabuke", 120, 5), # kreira se prvi objekat
+    Proizvod("Kruške", 150, 3), # kreira se drugi objekat
+]
+
+for proizvod in proizvodi:
+    print(proizvod.naziv, "->", proizvod.ukupna_vrednost())
+</xmp>
+
+<h2>5. Atributi klase i atributi objekta</h2>
+<p style="text-align: justify">
+  Atributi koji su do sada korišćeni postavljaju se preko <b>self</b>
+  (npr. <b>self.naziv</b>) i nazivaju se <b>atributi objekta</b>
+  (instance). Upravo zato svaki objekat ima svoje vrednosti, kao u
+  prethodnom primeru. Ponekad je, međutim, potrebna vrednost koja je
+  ista za sve objekte. Takav atribut definiše se direktno u telu klase,
+  van bilo koje metode, i naziva se <b>atribut klase</b>.
+</p>
+
+<b>Primer 5 (Atribut klase i atributi objekta):</b> Klasi proizvoda
+dodati atribut klase <b>valuta</b>, koji je isti za sve proizvode.
+<xmp class="primer_ta" title="">
+class Proizvod:
+    valuta = "RSD"    # atribut klase - zajednički za sve objekte
+
+    def __init__(self, naziv, cena):
+        self.naziv = naziv    # atribut objekta - svaki objekat ima svoju vrednost
+        self.cena = cena      # atribut objekta - svaki objekat ima svoju vrednost
+
+p1 = Proizvod("Jabuke", 120)
+p2 = Proizvod("Kruške", 150)
+
+print(p1.naziv, p1.cena, p1.valuta)    # Jabuke 120 RSD
+print(p2.naziv, p2.cena, p2.valuta)    # Kruške 150 RSD
+print(Proizvod.valuta)                 # RSD
+</xmp>
+
+<div class="napomena">
+  Atributu klase može se pristupiti i preko naziva klase
+  (<b>Proizvod.valuta</b>) i preko bilo kog njenog objekta
+  (<b>p1.valuta</b>). Atributi objekta postoje tek kada se objekat
+  kreira, pa im se pristupa samo preko objekta.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napraviti klasu <b>Radnik</b> sa atributima <b>ime</b> i
+  <b>plata</b>, i metodom <b>uvecaj_platu(procenat)</b>, koja povećava platu
+  radnika za zadati procenat. Napraviti nekoliko objekata te klase i za
+  svakog ispisati platu pre i posle uvećanja od 10%.<br /><br />
+  <b>2.</b> Napraviti klasu <b>Pravougaonik</b> sa atributima <b>a</b> i
+  <b>b</b> i metodama <b>povrsina()</b> i <b>obim()</b>. Napraviti dva objekta
+  sa različitim dimenzijama i za svaki ispisati površinu i obim.<br /><br />
+  <b>3.</b> Napraviti klasu <b>RacunUBanci</b> sa atributom <b>stanje</b> i
+  metodama <b>uplati(iznos)</b> i <b>isplati(iznos)</b>, preko kojih se menja stanje na računu. Isplata je moguća
+  samo ako na računu ima dovoljno sredstava. U suprotnom ispisati poruku o
+  grešci. Isprobati obe metode nad jednim objektom i ispisivati stanje nakon
+  svake promene.<br /><br />
+  <b>4.</b> Klasi <b>Radnik</b> iz prvog zadatka dodati atribut klase
+  <b>broj_radnika</b>, sa početnom vrednošću 0, koji se u konstruktoru
+  uvećava za 1 (<b>Radnik.broj_radnika += 1</b>). Napraviti nekoliko
+  objekata i na kraju ispisati koliko je ukupno radnika napravljeno.
+</div>

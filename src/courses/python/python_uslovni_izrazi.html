@@ -1,0 +1,106 @@
+<h1>Uslovni izrazi</h1>
+
+<p style="text-align: justify">
+  Uslovni izrazi omogućavaju da program izvrši različite delove koda u
+  zavisnosti od toga da li je neki uslov ispunjen. U Pythonu se za to
+  koriste ključne reči <b>if</b>, <b>elif</b> i <b>else</b>.
+</p>
+
+<p style="text-align: justify">
+  Osnovni oblik uslovnog izraza izgleda ovako:
+</p>
+
+<p style="margin-left: 30px">
+  <b>if</b> uslov<b>:</b><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;naredba1<br />
+  <b>elif</b> drugi_uslov<b>:</b><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;naredba2<br />
+  <b>else:</b><br />
+  &nbsp;&nbsp;&nbsp;&nbsp;naredba3
+</p>
+
+<p style="text-align: justify">
+  Za razliku od mnogih drugih jezika, Python <b>ne koristi vitičaste zagrade</b>
+  za obeležavanje bloka koda koji pripada uslovu. Umesto toga, pripadnost
+  bloku se određuje pomoću <b>uvlačenja</b> (indentacije) na početku linije.
+  Za uvlačenje se može koristiti bilo koja količina
+  beline (razmaci ili tabovi), ali je bitno da uvlačenje bude <b>konzistentno</b> unutar istog bloka. 
+  Po zvaničnim preporukama za pisanje Python koda (<b>PEP 8</b>) koriste se <b>četiri razmaka</b> po nivou
+  uvlačenja, pa se toga držimo i u nastavku. Nakon uslova (kao i posle
+  <b>else</b>) uvek se piše dvotačka <b>:</b>.
+</p>
+
+<b>Primer 1 (Jednostavan if uslov):</b> Proveriti da li je osoba
+punoletna na osnovu njenih godina.
+<xmp class="primer_ta" title="">
+godine = 20
+
+if godine >= 18:
+    print("Osoba je punoletna.")
+</xmp>
+
+<p style="text-align: justify">
+  Uvučeni blok koda ispod <b>if</b> izvršava se samo ako je uslov tačan
+  (ima vrednost <b>True</b>); u suprotnom se ceo taj blok preskače.
+</p>
+
+<b>Primer 2 (if-else naredba):</b> Proveriti da li je zadati broj paran
+ili neparan.
+<xmp class="primer_ta" title="">
+broj = 7
+
+if broj % 2 == 0:
+    print("Broj je paran.")
+else:
+    print("Broj je neparan.")
+</xmp>
+
+<p style="text-align: justify">
+  Grana <b>else</b> (u prevodu „inače“) navodi se opciono i njen blok se
+  izvršava kada uslov <b>nije</b> ispunjen. Kada je <b>else</b> naveden,
+  uvek se izvrši tačno jedan od dva bloka, ili onaj ispod <b>if</b>, ili
+  onaj ispod <b>else</b>.
+</p>
+
+<p style="text-align: justify">
+  Kada je potrebno proveriti više uslova redom, koristi se <b>elif</b>,
+  skraćeno od engleskog „else if“, što u prevodu znači „inače, ako…“.
+  Uslovi se proveravaju od vrha ka dnu, a izvršava se kod ispod prvog
+  uslova koji je ispunjen (svi ostali se preskaču). Ako nijedan uslov nije
+  ispunjen, izvršava se kod u <b>else</b> grani (ako je navedena).
+</p>
+
+<b>Primer 3 (Ocenjivanje na osnovu broja poena):</b> Na osnovu broja
+osvojenih poena, pomoću <b>elif</b> grana, odrediti i ispisati ocenu.
+<xmp class="primer_ta" title="">
+poeni = 78
+
+if poeni >= 90:
+    ocena = 5
+elif poeni >= 75:
+    ocena = 4
+elif poeni >= 60:
+    ocena = 3
+else:
+    ocena = 2
+
+print("Ocena:", ocena)
+</xmp>
+
+<div class="napomena">
+  Funkcija <b>print()</b> može primiti više vrednosti odvojenih zarezom.
+  Ona ih automatski razdvaja razmakom prilikom ispisa. Na primer poziv
+  <span class="primer_text">print("Broj:", 3)</span> ispisuje <b>Broj: 3</b>.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Napisati program koji na osnovu tri ocene računa prosek i
+  ispisuje da li je učenik položio razred (prosek veći ili jednak 2.5) ili
+  nije.<br /><br />
+  <b>2.</b> Napisati program koji za zadati ceo broj ispisuje da li je
+  pozitivan, negativan ili jednak nuli.<br /><br />
+  <b>3.</b> Napisati program koji za zadatu godinu proverava i ispisuje da li
+  je prestupna. Godina je prestupna ako je deljiva sa 4, osim ako je deljiva
+  sa 100 a nije deljiva sa 400.
+</div>

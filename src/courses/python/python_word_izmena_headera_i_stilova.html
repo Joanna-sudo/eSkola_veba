@@ -1,0 +1,212 @@
+<h1>Izmena header-a i stilova u Word dokumentu</h1>
+
+<p style="text-align: justify">
+  U prethodnoj lekciji naučili smo kako da <b>čitamo</b> sadržaj Word
+  dokumenta pomoću biblioteke <b>python-docx</b>. Sada ćemo videti kako se
+  taj isti dokument može automatski <b>izmeniti</b>, konkretno, kako se
+  menja tekst u zaglavlju (header-u) stranice, kao i kako se menja tekst
+  samo onih pasusa koji su napisani određenim stilom (na primer, samo
+  naslova).
+</p>
+
+<div class="napomena">
+  Svi primeri u ovoj lekciji nastavljaju rad nad istim dokumentom,
+  <b>izvestaj.docx</b>, opisanim u prethodnoj lekciji (može se preuzeti
+  na istom mestu
+  <a href="courses/python/files/izvestaj.docx" target="_blank">izvestaj.docx</a>).
+</div>
+
+<h2>1. Izmena zaglavlja (header-a) dokumenta</h2>
+<p style="text-align: justify">
+  Word dokument je podeljen na jednu ili više <b>sekcija</b>
+  (<b>sections</b>), a svaka sekcija ima svoje zaglavlje. Kod jednostavnijih
+  dokumenata najčešće postoji samo jedna sekcija, pa se do zaglavlja dolazi
+  preko <b>dokument.sections[0].header</b>. Zaglavlje, kao i telo
+  dokumenta, sadrži paragrafe.
+</p>
+
+<b>Primer 1 (Izmena teksta u zaglavlju):</b> Izmeniti tekst zaglavlja
+dokumenta i sačuvati rezultat kao novi fajl.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+
+header = dokument.sections[0].header
+header.paragraphs[0].text = "Interni izveštaj - poverljivo"
+
+dokument.save("izvestaj_izmenjen.docx")
+</xmp>
+
+<div class="napomena">
+  Metoda <b>save()</b> čuva izmene u novi (ili isti) .docx fajl. Ukoliko se
+  prosledi isto ime kao originalni fajl, on će biti pregažen, zato je za
+  vežbu bezbednije čuvati rezultat pod novim imenom, kao u primeru iznad.
+</div>
+
+<p style="text-align: justify">
+  Ukoliko zaglavlje ne sadrži nijedan paragraf (prazno je), pre upisa teksta
+  potrebno je prvo dodati paragraf pomoću metode
+  <b>add_paragraph()</b>.
+</p>
+
+<b>Primer 2 (Dodavanje paragrafa u prazno zaglavlje):</b> Postaviti tekst
+u zaglavlje koje trenutno nema nijedan paragraf.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+header = dokument.sections[0].header
+
+if len(header.paragraphs) == 0 or header.paragraphs[0].text == "":
+    header.paragraphs[0].text = "Naziv firme d.o.o."
+
+dokument.save("izvestaj.docx")
+</xmp>
+
+<div class="napomena">
+  Dokument se ovde ponovo učitava sa diska (umesto nastavka rada nad
+  <b>dokument</b> promenljivom iz Primera 1), kako bi se radilo nad
+  originalnim, praznim zaglavljem. Da se dokument nije ponovo učitao,
+  zaglavlje bi već sadržalo tekst upisan u Primeru 1, uslov bi bio netačan
+  i ništa se ne bi izmenilo. Takođe je dodat i poziv metode
+  <b>save()</b>, ovoga puta nad originalnim fajlom. Bez <b>save()</b> bi izmena ostala samo u memoriji i ne bi bila
+  vidljiva nakon završetka programa.
+</div>
+
+<h2>2. Stilovi paragrafa</h2>
+<p style="text-align: justify">
+  Svaki paragraf u Word dokumentu ima dodeljen <b>stil</b> (npr. „Normal“,
+  „Heading 1“, „Heading 2“, „Title“...), koji određuje njegov izgled - font,
+  veličinu, boju i slično. Naziv stila datog paragrafa dobija se preko
+  osobine <b>paragraf.style.name</b>.
+</p>
+
+<b>Primer 3 (Ispis stila svakog paragrafa):</b> Za svaki paragraf
+dokumenta ispisati naziv njegovog stila i tekst.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+
+for paragraf in dokument.paragraphs:
+    print(paragraf.style.name, "->", paragraf.text)
+</xmp>
+
+<h2>3. Izmena teksta samo u pasusima određenog stila</h2>
+<p style="text-align: justify">
+  Kombinovanjem provere stila (uslovni izraz <b>if</b>, obrađen u ranijoj
+  lekciji) i izmene teksta, moguće je automatski izmeniti samo one pasuse
+  koji su napisani određenim stilom - na primer, dodati prefiks svim
+  naslovima nivoa 1 (<b>Heading 1</b>), bez diranja ostatka teksta.
+</p>
+
+<b>Primer 4 (Izmena naslova stila Heading 1):</b> Svim paragrafima stila
+Heading 1 dodati prefiks, bez izmene ostatka teksta.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+
+for paragraf in dokument.paragraphs:
+    if paragraf.style.name == "Heading 1":
+        paragraf.text = "POGLAVLJE: " + paragraf.text
+
+dokument.save("izvestaj_izmenjen.docx")
+</xmp>
+
+<div class="napomena">
+  Stil važi za ceo pasus, ali se deo pasusa može i dodatno formatirati
+  (npr. podebljati samo jedna reč). Zato Word tekst pasusa čuva u delovima
+  koji se nazivaju <b>run</b>, pri čemu svi karakteri jednog run-a imaju
+  isto formatiranje. Na primer, u dokumentu <b>izvestaj.docx</b> pasus
+  „Ovaj izveštaj sadrži pregled poslovnih rezultata kompanije za
+  <b>2023</b>. godinu.“ sastoji se od tri run-a: „Ovaj izveštaj sadrži
+  pregled poslovnih rezultata kompanije za “, „2023“ (podebljano) i
+  „. godinu.“.<br /><br />
+  Izmena osobine <b>paragraf.text</b> zamenjuje sve run-ove jednim novim,
+  pa se dodatno formatiranje unutar pasusa gubi. Da bi se ono sačuvalo,
+  menja se tekst pojedinačnog run-a preko liste <b>paragraf.runs</b>, kao
+  u narednom primeru.
+</div>
+
+<b>Primer 5 (Zamena reči unutar pasusa uz očuvanje formatiranja):</b> U
+pasusima stila Normal zameniti jednu reč drugom, bez gubljenja
+formatiranja.
+<xmp class="primer_ta" title="">
+from docx import Document
+
+dokument = Document("izvestaj.docx")
+
+for paragraf in dokument.paragraphs:
+    if paragraf.style.name == "Normal":
+        for run in paragraf.runs:
+            if "2023" in run.text:
+                run.text = run.text.replace("2023", "2024")
+
+dokument.save("izvestaj_izmenjen.docx")
+</xmp>
+
+<div class="napomena">
+  Word ponekad i jednu reč podeli na više run-ova (npr. „20“ i „23“). U
+  tom slučaju tražena reč se ne nalazi ni u jednom run-u, pa do zamene
+  neće doći.
+</div>
+
+<h2>4. Izmena zaglavlja u više fajlova odjednom</h2>
+<p style="text-align: justify">
+  Do sada je svaki primer radio nad jednim dokumentom. U praksi je često
+  potrebno primeniti istu izmenu na više Word dokumenata odjednom, koji
+  se nalaze u istom folderu. Za dobijanje spiska svih fajlova u folderu
+  koristi se ugrađeni modul <b>os</b>, konkretno funkcija
+  <b>os.listdir()</b>.
+</p>
+
+<div class="napomena">
+  Za vežbu, kreirati folder (npr. pod nazivom <b>dokumenti</b>) i u njega
+  staviti nekoliko .docx fajlova. Mogu se iskoristiti već poznati
+  <b>izvestaj.docx</b> i <b>izvestaj_izmenjen.docx</b> iz prethodnih
+  primera, a po želji dodati i još poneki .docx fajl.
+</div>
+
+<b>Primer 6 (Izmena zaglavlja u svim dokumentima iz foldera):</b> Za
+svaki .docx fajl u folderu izmeniti tekst zaglavlja i sačuvati izmenu.
+<xmp class="primer_ta" title="">
+import os
+from docx import Document
+
+folder = "dokumenti"
+
+for naziv_fajla in os.listdir(folder):
+    if naziv_fajla.endswith(".docx"):
+        putanja = os.path.join(folder, naziv_fajla)
+        dokument = Document(putanja)
+
+        header = dokument.sections[0].header
+        header.paragraphs[0].text = "Interni izveštaj - poverljivo"
+
+        dokument.save(putanja)
+        print("Izmenjen fajl:", naziv_fajla)
+</xmp>
+
+<div class="napomena">
+  Funkcija <b>os.listdir(folder)</b> vraća listu naziva svih fajlova (i
+  podfoldera) u datom folderu, bez pune putanje. Zato se puna putanja do
+  fajla gradi pomoću <b>os.path.join(folder, naziv_fajla)</b>, koja
+  ispravno spaja folder i naziv fajla bez obzira na operativni sistem.
+</div>
+
+<div class="zadatak">
+  <b>Zadaci:</b><br /><br />
+  <b>1.</b> Kreirati Word dokument koji sadrži zaglavlje, jedan naslov (stil
+  Heading 1) i nekoliko pasusa običnog teksta (stil Normal). Napisati Python
+  program koji: a) u zaglavlje upisuje vaše ime i prezime, b) svim naslovima
+  dodaje prefiks "TEMA: ", i v) čuva rezultat kao novi .docx fajl.<br /><br />
+  <b>2.</b> Napisati program koji za dokument <b>izvestaj.docx</b> prebrojava
+  koliko paragrafa ima stil <b>Heading 1</b>, a koliko stil <b>Normal</b>, i
+  ispisuje oba broja.<br /><br />
+  <b>3.</b> Napisati program koji u svim paragrafima stila <b>Normal</b>
+  zamenjuje jednu reč drugom (npr. "firma" rečju "kompanija"), čuvajući
+  formatiranje (izmenom preko liste <b>runs</b>), a zatim rezultat čuva kao
+  novi .docx fajl.
+</div>

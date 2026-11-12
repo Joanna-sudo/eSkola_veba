@@ -1,0 +1,89 @@
+<h1>Instalacija i podešavanje okruženja</h1>
+
+<p style="text-align: justify">
+  Da bi se pisali i pokretali Python programi na računaru, neophodno je instalirati <b>Python interpreter</b>. Sam kod se
+  može pisati u bilo kom tekst editoru, ali se u praksi preporučuje
+  korišćenje <b>IDE</b>-a (integrisanog razvojnog okruženja), jer takav
+  program prepoznaje Python sintaksu i znatno olakšava pisanje, pokretanje i
+  pronalaženje grešaka u kodu.
+</p>
+
+<h2>1. Preuzimanje i instalacija Pythona</h2>
+<p style="text-align: justify">
+  Instalacija se preuzima sa zvaničnog sajta
+  <span class="primer_text">python.org/downloads</span>. Sajt automatski
+  prepoznaje operativni sistem i nudi odgovarajući instalacioni fajl.
+</p>
+
+<div class="napomena">
+  Na Windows operativnom sistemu, prilikom instalacije štiklirati
+  opciju <b>„Add Python to PATH“</b>. Na taj način se Python komanda može
+  pozvati iz bilo kog foldera preko komandne linije, bez unošenja pune
+  putanje do instalacije.
+</div>
+
+<img src="courses/python/img/py_install.png" class="img-fluid" style="width: 25%" />
+
+<h2>2. Provera instalacije</h2>
+<p style="text-align: justify">
+  Nakon instalacije, otvara se komandna linija (na Windows-u <b>cmd</b> ili
+  <b>PowerShell</b>, na macOS/Linux-u <b>terminal</b>). Na Windows-u se
+  komandna linija najlakše pronalazi preko pretrage u Start meniju, unosom
+  reči <span class="primer_text">cmd</span>:
+</p>
+
+<img src="courses/python/img/cmd_open.png" class="img-fluid" style="width: 25%" />
+
+<p style="text-align: justify">
+  U komandnoj liniji se zatim unosi sledeća komanda:
+</p>
+
+<xmp class="primer_ta" title="">
+python --version
+</xmp>
+
+<p style="text-align: justify">
+  Ukoliko je instalacija uspešna, u konzoli će se ispisati instalirana verzija,
+  na primer <span class="primer_text">Python 3.14.7</span>, kao na slici
+  ispod:
+</p>
+
+<img src="courses/python/img/cmd_py_version.png" class="img-fluid" style="width: 30%" />
+
+<p style="text-align: justify">
+  Zajedno sa Pythonom se instalira i <b>pip</b> - alat za instaliranje
+  dodatnih biblioteka, koji ćemo koristiti u kasnijim lekcijama. Njegovu instalaciju možemo proveriti na sličan način.
+</p>
+
+<xmp class="primer_ta" title="">
+pip --version
+</xmp>
+
+<h2>3. Izbor editora</h2>
+<p style="text-align: justify">
+  Python programi se čuvaju u datotekama sa ekstenzijom <b>.py</b>.
+  Kod se može pisati u bilo kom tekst editoru, ali je za rad sa Pythonom praktičnije
+  koristiti specijalizovane programe koji pružaju podršku za pisanje, pokretanje i debagovanje koda.
+  Među njima su <b>Visual Studio Code</b> (VS Code) i <b>PyCharm</b>, dok se za jednostavniji rad može
+  koristiti i <b>Notepad++</b>. Za brzo isprobavanje kraćih naredbi može se koristiti i
+  <b>IDLE</b>, jednostavno razvojno okruženje koje se automatski instalira
+  zajedno sa Pythonom.
+</p>
+
+<p style="text-align: justify">
+  Ukoliko se za rad koristi <b>Visual Studio Code</b> (VS Code), potrebno je u okviru njega
+  instalirati i zvaničnu <b>Python ekstenziju</b> (Microsoft), koja
+  omogućava prepoznavanje sintakse, pokretanje i debagovanje Python koda.
+  Ekstenzija se instalira tako što se prvo klikne na ikonicu <b>Extensions</b> u bočnoj traci (označeno sa
+  <b>1</b> na slici), zatim se u polje za pretragu ukuca pojam
+  <span class="primer_text">python</span>, i na kraju se pored zvanične
+  Python ekstenzije (Microsoft) klikne dugme <b>Install</b> (označeno sa
+  <b>2</b> na slici):
+</p>
+
+<img src="courses/python/img/py_extension_vs_code.png" class="img-fluid" style="width: 20%" />
+
+<div class="zadatak">
+  <b>Zadatak:</b> Instalirati Python na svom računaru i u komandnoj liniji
+  proveriti instaliranu verziju pomoću komande <b>python --version</b>. Po želji instalirati i VS Code.
+</div>
